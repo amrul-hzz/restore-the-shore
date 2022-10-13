@@ -14,11 +14,11 @@ Proyek ini dibuat dalam memenuhi tugas Proyek Tengah Semester (PTS) pada mata ku
 6. [Yeira Putri Nandika - 2106751726](https://github.com/yeiraputri)
 
 ## Tautan Aplikasi Heroku
-https://github.com/amrul-hzz/tugas-kelompok-c03 
+https://restore-the-shore.herokuapp.com/
 
 ## Cerita Aplikasi
 Masalah lingkungan sudah sangat parah belakangan ini. Di Indonesia, penumpukan sampah serta pembuangan sampah sembarangan menjadi permasalahan utama yang terjadi. Berdasarkan data Indonesia National Plastic Action Partnership yang dirilis April 2020, sebanyak 67,2 juta ton sampah Indonesia masih menumpuk setiap tahunnya, dan 9 persennya atau sekitar 620 ribu ton masuk ke sungai, danau dan laut. Hal tersebut pasti akan membawa dampak buruk kepada makhluk hidup. Maka dari itu isu tersebut difokuskan ke dalam G20 yang membahas mengenai Sustainability.<br>
-Masalah sampah tidak kunjung selesai akibat dari minimnya rasa tanggung jawab dan kesadaran diri masing-masing. Dalam mencoba untuk meningkatkan rasa tersebut, kelompok kami memfokuskan dalam membersihkan sampah di sungai maupun pantai dengan cara yang menyenangkan. Kelompok kami ingin membuat web yang di dalamnya berisikan jadwal dan tempat dari event pembersihan sampah disertai achievements ketika pengguna mengikuti event yang ada. Di web kami juga akan terdapat forum dimana para pengguna dapat mengekspresikan diri mereka saat mengikuti event tersebut. Diharapkan web ini akan menumbuhkan rasa ingin masyarakat dalam berkontribusi dalam memelihara lingkungan hidup.
+Masalah sampah tidak kunjung selesai akibat dari minimnya rasa tanggung jawab dan kesadaran diri masing-masing. Dalam mencoba untuk meningkatkan rasa tersebut, kelompok kami memfokuskan dalam membersihkan sampah di sungai maupun pantai dengan cara yang menyenangkan. Kelompok kami ingin membuat web yang di dalamnya berisikan jadwal dan tempat dari event pembersihan sampah disertai achievements ketika pengguna mengikuti event yang ada. Di web kami juga akan terdapat forum dimana para pengguna dapat mengekspresikan diri mereka saat mengikuti event tersebut. Diharapkan web Restore The Shore ini akan menumbuhkan rasa ingin masyarakat dalam berkontribusi dalam memelihara lingkungan hidup.
 
 ## Daftar Modul yang Akan Diimplementasikan
 1. Landing Page\
