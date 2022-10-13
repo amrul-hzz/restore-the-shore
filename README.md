@@ -21,19 +21,19 @@ Masalah lingkungan sudah sangat parah belakangan ini. Di Indonesia, penumpukan s
 Masalah sampah tidak kunjung selesai akibat dari minimnya rasa tanggung jawab dan kesadaran diri masing-masing. Dalam mencoba untuk meningkatkan rasa tersebut, kelompok kami memfokuskan dalam membersihkan sampah di sungai maupun pantai dengan cara yang menyenangkan. Kelompok kami ingin membuat web yang di dalamnya berisikan jadwal dan tempat dari event pembersihan sampah disertai achievements ketika pengguna mengikuti event yang ada. Di web kami juga akan terdapat forum dimana para pengguna dapat mengekspresikan diri mereka saat mengikuti event tersebut. Diharapkan web ini akan menumbuhkan rasa ingin masyarakat dalam berkontribusi dalam memelihara lingkungan hidup.
 
 ## Daftar Modul yang Akan Diimplementasikan
-1. Landing Page
+1. Landing Page\
 Modul ini merupakan tampilan pertama yang dilihat oleh user saat membuka website. User dapat melihat profil dari perusahaan kita, visi dan misi perusahaan, serta event-event pembersihan pantai yang sedang berjalan. Lalu, terdapat button untuk login dan register akun.
-2. Login + Register
+2. Login + Register\
 Modul ini berisi login yang meminta user untuk memberikan username dan password yang telah didaftarkan sebelumnya pada saat register. Register akan meminta calon user untuk mengisi informasi seperti nama, alamat email, nomor telepon, dan alamat tinggal.
-3. Timeline
+3. Timeline\
 Modul ini akan menampilkan event-event apa saja yang akan berlangsung. Event tersebut akan menjelaskan pantai apa yang akan dibersihkan, alamat pantai, tanggal mulai hingga tanggal penutupan acara, serta kapasitas orang yang dibutuhkan untuk membantu pembersihan pantai.
-4. Create Event
+4. Create Event\
 Modul ini digunakan admin untuk mengunggah event pembersihan pantai dengan mengisi form yang terdiri dari nama pantai, alamat pantai, foto kondisi pantai, penjelasan mengapa pantai pantas untuk dibersihkan, tanggal mulai hingga tanggal penutupan acara, serta kapasitas orang yang dibutuhkan untuk membantu pembersihan pantai. Event yang diunggah akan muncul di Timeline.
-5. Forum
+5. Forum\
 Modul yang berisi forum pembicaraan dan diskusi antara user. User dapat mengunggah komentar berisi teks maupun foto sehingga membuat sebuah forum baru. User lain dapat membalas forum tersebut serta saling membalas satu sama lain. 
-6. My Account
+6. My Account\
 Modul ini akan menampilkan profil user yang berisi thread yang mereka sebelumnya buat, pencapaian-pencapaian saat mereka menyelesaikan event (jika admin memberikan badge), dan event-event yang telah mereka tempuh sebelumnya.
-7. Leaderboard
+7. Leaderboard\
 Modul ini berisi halaman papan peringkat yang akan menampilkan user dengan point tertinggi. Point diberikan oleh admin jika admin merasa bahwa user secara valid menjalani event sesuai dengan aturan yang berlaku. 
 
 ## Role atau peran pengguna beserta deskripsinya
