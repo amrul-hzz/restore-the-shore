@@ -1,8 +1,15 @@
 from django.shortcuts import render
+from my_account.models import UserAccount
 
 # TODO: import app dari fadlan
 
 # Create your views here.
 def show_leaderboard(request):
-    pass
-    # user = MODEL_FADLAN.objects.all()
+    data_leaderboard = UserAccount.object.all()
+    context = {
+        "leaderboards": data_leaderboard
+    }
+    return render(request, "leaderboard.html", context)
+
+# def show_json(request):
+
