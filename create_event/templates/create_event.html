@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block meta %}
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // $("#tambah").click(function(e){
+        //     if ($("#namaEvent").val() == '' || $("#namaPantai").val() == '' || $("#alamatPantai").val() == '' || $("#jumlahPartisipan").val() == '' 
+        //     || $("#fotoPantai").val() == '' || $("#deskripsi").val() == '' || $("#tanggalMulai").val() == '' || $("#tanggalAkhir").val() == '') {
+        //         alert("input masih kosong");
+        //     }
+        // });
+
+        $("#new-task").submit(function(e){
+            e.preventDefault();
+            $.post("/create-event/add/", { 
+                namaEvent: $("#namaEvent").val(), 
+                namaPantai: $("#namaPantai").val(),
+                alamatPantai: $("#alamatPantai").val(), 
+                jumlahPartisipan: $("#jumlahPartisipan").val(),
+                fotoPantai: $("#fotoPantai").val(), 
+                deskripsi: $("#deskripsi").val(),
+                tanggalMulai: $("#tanggalMulai").val(),
+                tanggalAkhir: $("#tanggalAkhir").val(),
+            }).done(function (data) {
+                $("#namaEvent").val(""), 
+                $("#namaPantai").val(""), 
+                $("#alamatPantai").val(""), 
+                $("#jumlahPartisipan").val(""), 
+                $("#fotoPantai").val(""), 
+                $("#deskripsi").val(""), 
+                $("#tanggalMulai").val(""), 
+                $("#tanggalAkhir").val("");
+            });
+        });
+    });
+</script>
+{% endblock meta %}
+
+{% block content %}
+<div class="flex">
+<div class = "flex w-full h-screen bg-no-repeat bg-cover bg-center"
+style="background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');">
+<div id="new-task" class="grid h-screen w-full fixed bg-black bg-opacity-10 z-100 overflow-y-auto">
+    <div class= "bg-white shadow-lg lg:p-14 p-8 rounded-2xl lg:my-16 lg:mx-28 m-5">
+        <div class="flex flex-col justify-center gap-5">
+          <h1 class="lg:text-5xl text-2xl font-bold lg:pb-3">Tambah Event Baru</h1>
+          <form method="POST" id="new-task" class="">
+            {% csrf_token %}
+            <div class="flex lg:flex-row flex-col lg:gap-x-7 gap-y-3">
+                <div class="flex flex-col lg:gap-y-3 w-full gap-y-4">
+                    <div class="flex flex-col gap-y-1">
+                    <label for="namaEvent" class="flex text-md font-bold flex">Nama Event</label>
+                    <input type="text" id="namaEvent" placeholder="Title" class="w-full px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white">
+                    </div>
+
+                    <div class="flex flex-col gap-y-1">
+                    <label for="namaPantai" class="text-md font-bold">Nama Pantai</label>
+                    <input type="text" id="namaPantai" placeholder="Title" class="w-full px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white">
+                    </div>
+
+                    <div class="flex flex-col gap-y-1">
+                    <label for="alamatPantai" class="text-md font-bold">Alamat Pantai</label>
+                    <input type="text" id="alamatPantai" placeholder="Title" class="w-full px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white">
+                    </div>
+
+                    <div class="flex flex-col gap-y-1">
+                    <label for="jumlahPartisipan" class="text-md font-bold">Jumlah Partisipan</label>
+                    <input type="number" id="jumlahPartisipan" placeholder="Title" class="w-full px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white">
+                    </div>
+
+                    <div class="flex gap-x-5 items-center">
+                    <label for="tanggalMulai" class="text-md font-bold">Tanggal Mulai: </label>
+                    <input type="date" id="tanggalMulai" placeholder="Title" class="px-2 py-1 rounded-md border text-md border-gray-400 bg-white">
+                    </div>
+
+                    <div class="flex gap-x-5 items-center">
+                    <label for="tanggalAkhir" class="text-md font-bold">Tanggal Akhir: </label>
+                    <input type="date" id="tanggalAkhir" placeholder="Title" class="px-2 py-1 rounded-md border text-md border-gray-400 bg-white">
+                    </div>
+                </div>
+                
+                <div class="flex flex-col lg:gap-y-3 w-full gap-y-4">
+                    <div class="flex flex-col gap-y-1">
+                        <label for="fotoPantai" class="text-md font-bold">Foto Pantai <span class="text-gray-500 font-normal italic text-sm">(Salin URL Foto Pantai Anda)</span></label>
+                        <input type="url" id="fotoPantai" placeholder="Title" onchange="loadFile(event)" class="w-full px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white">
+                        <div class="flex w-full justify-center">
+                            <img id="output" class="flex lg:w-[60%] w-[90%]"/>
+                        </div>
+                        <script>
+                        var loadFile = function(event) {
+                            var output = document.getElementById('output');
+                            var link = document.getElementById('fotoPantai').value;
+                            output.src = link;
+                            output.classList.add("mt-1");
+                            output.classList.add("rounded-md");
+                            output.classList.add("p-2");
+                            output.classList.add("border");
+                            output.classList.add("border-slate-400");
+                        };
+                        </script>
+                    </div>
+                    <div class="flex flex-col gap-y-1">
+                        <label for="deskripsi" class="text-md font-bold">Deskrispi</label>
+                        <textarea id="deskripsi" placeholder="Title" class="px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10">
+                <input type="submit" value="Tambah Event" id="tambah" class="w-full py-2 font-semibold bg-indigo-500 text-gray-100 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
