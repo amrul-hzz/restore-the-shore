@@ -2,42 +2,158 @@
 
 {% block meta %}
 <title>My Account</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: azure;
+  }
 
+  #wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  article,
+  aside,
+  header,
+  nav {
+    background: grey;
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 1.5vh;
+    color: #fff;
+  }
+
+  article,
+  aside {
+    float: left;
+    height: 100vh;
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+  }
+
+  article {
+    width: 72%;
+  }
+
+  aside {
+    width: 26%;
+  }
+
+  .row {
+    margin: 0.5vh;
+  }
 </style>
 {% endblock meta %}
 
 
 {% block content %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
+  $(document).ready(function () {
+    // $.ajax({
+    //   url : " %}",
+    //   dataType : 'json',
+    //   success: function (data) {
+    //     for (var i = 0; i < data.length; i++) {
+    //       if (data[i].fields.poster == user) {     
+    //         var row = `<div class="row">
+    //                     <div id="card-${data[i].pk}" class="card m-4 mx-auto">
+    //                       <p>This is My Post</p>
+    //                     </div>
+    //                   </div>`;
+    //         $('#myPost').append(row);
+    //       }
+    //     }
+    //   },
+    //   error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
+    //     alert('Error: ' + textStatus + ' - ' + errorThrown);
+    //   }
+    // });
 
+    $.ajax({
+      url: "{% url 'create_event:show_json' %}",
+      dataType: 'json',
+      success: function (data) {
+        for (var i = 0; i < data.length; i++) {
+          var row = `<div class="row">
+                        <div id="card-${data[i].pk}" class="card m-4 mx-auto">
+                          <p>This is Event I participated</p>
+                        </div>
+                      </div>`;
+          $('#myEvent').append(row);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
+        alert('Error: ' + textStatus + ' - ' + errorThrown);
+      }
+    });
+  });
 </script>
 
-<header>
+<div id="wrapper">
+  <header>
     <nav class="navbar navbar-expand-lg max-width">
-        <div class="container-fluid">
-          <a id="test" class="navbar-brand mb-0 h3" href=#>
-            RTS
-          </a>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a class="btn btn-secondary" type="button" href="#"> <!-- href='{% url 'landing_page:logout' %}'-->
-                Logout
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div class="container-fluid">
+        <a id="test" class="navbar-brand mb-0 h3" href=#>
+          RTS
+        </a>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="btn btn-secondary" type="button" href="#">
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
-    <h1>Hi User,</h1>
-</header>
+    <h1>Hi {user.get_username}},</h1>
+  </header>
+  <article id="article">
+    <h3>My Post</h3>
+    <div id="myPost" class="col">
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+    </div>
+  </article>
+  <aside id="aside">
+    <h3>Achievments / Badge</h3>
+    <h5>User Point : {user_data.fields.user_point}}</h5>
+    <hr style="border-top: 2px dashed;">
+    <h5>Event History</h5>
+    <div id="myEvent" class="col">
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+      <div class="row">
+        <div class="card">..</div>
+      </div>
+    </div>
 
-<main>
-    <p>This is my account</p>
-</main>
+  </aside>
+</div>
+
+
 
 {% endblock content %}
