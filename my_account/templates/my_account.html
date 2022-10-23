@@ -56,37 +56,19 @@
   integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
-    // $.ajax({
-    //   url : " %}",
-    //   dataType : 'json',
-    //   success: function (data) {
-    //     for (var i = 0; i < data.length; i++) {
-    //       if (data[i].fields.poster == user) {     
-    //         var row = `<div class="row">
-    //                     <div id="card-${data[i].pk}" class="card m-4 mx-auto">
-    //                       <p>This is My Post</p>
-    //                     </div>
-    //                   </div>`;
-    //         $('#myPost').append(row);
-    //       }
-    //     }
-    //   },
-    //   error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
-    //     alert('Error: ' + textStatus + ' - ' + errorThrown);
-    //   }
-    // });
-
     $.ajax({
-      url: "{% url 'create_event:show_json' %}",
-      dataType: 'json',
+      url : "{% url 'forum:show_json' %}",
+      dataType : 'json',
       success: function (data) {
         for (var i = 0; i < data.length; i++) {
-          var row = `<div class="row">
+          if (data[i].fields.poster == user) {     
+            var row = `<div class="row">
                         <div id="card-${data[i].pk}" class="card m-4 mx-auto">
-                          <p>This is Event I participated</p>
+                          <p>This is My Post</p>
                         </div>
                       </div>`;
-          $('#myEvent').append(row);
+            $('#myPost').append(row);
+          }
         }
       },
       error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
@@ -105,14 +87,14 @@
         </a>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a class="btn btn-secondary" type="button" href="#">
+            <a class="btn btn-secondary" type="button" href=#>
               Logout
             </a>
           </li>
         </ul>
       </div>
     </nav>
-    <h1>Hi {user.get_username}},</h1>
+    <h1>Hi {{user.get_username}},</h1>
   </header>
   <article id="article">
     <h3>My Post</h3>
@@ -133,22 +115,19 @@
   </article>
   <aside id="aside">
     <h3>Achievments / Badge</h3>
-    <h5>User Point : {user_data.fields.user_point}}</h5>
+    <h5>User Point : {{user_data.fields.user_point}}</h5>
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
     <div id="myEvent" class="col">
+      {% for event in events_joined %}
       <div class="row">
-        <div class="card">..</div>
+        <div class="card">
+          <p>{{event.namaEvent}}</p>
+          <p>{{event.namaPantai}}</p>
+          <p>{{event.tanggalMulai}} - {{event.tanggalAkhir}}</p>
+        </div>
       </div>
-      <div class="row">
-        <div class="card">..</div>
-      </div>
-      <div class="row">
-        <div class="card">..</div>
-      </div>
-      <div class="row">
-        <div class="card">..</div>
-      </div>
+      {% endfor %}
     </div>
 
   </aside>

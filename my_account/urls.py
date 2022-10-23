@@ -5,5 +5,6 @@ app_name = 'my_account'
 
 urlpatterns = [
     path('', show_account, name='my_account'),
+    path('json/', show_json, name = 'show_json'),
     
 ]
