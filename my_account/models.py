@@ -7,7 +7,7 @@ from create_event.models import Event
 # Create your models here.
 class UserAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_point = models.IntegerField()
+    user_point = models.IntegerField(default = 0)
     # import models dari Event
     events_joined = models.ManyToManyField(Event)
 

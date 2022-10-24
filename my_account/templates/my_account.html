@@ -57,7 +57,7 @@
 <script>
   $(document).ready(function () {
     $.ajax({
-      url : "{% url 'forum:show_json' %}",
+      url : "% url 'forum:show_json' %}",
       dataType : 'json',
       success: function (data) {
         for (var i = 0; i < data.length; i++) {
