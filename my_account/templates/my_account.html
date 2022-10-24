@@ -9,7 +9,7 @@
   body {
     margin: 0;
     padding: 0;
-    background-color: azure;
+    background-color: rgb(255, 255, 255);
   }
 
   #wrapper {
@@ -21,11 +21,11 @@
   aside,
   header,
   nav {
-    background: grey;
+    background: rgb(241, 241, 241);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
-    color: #fff;
+    color: rgb(0, 0, 0);
   }
 
   article,
@@ -34,6 +34,7 @@
     height: 100vh;
     margin-right: 0.5%;
     margin-left: 0.5%;
+    border-radius: 1vh;
   }
 
   article {
@@ -46,6 +47,13 @@
 
   .row {
     margin: 0.5vh;
+  }
+
+  .myBadge {
+    margin: 1vh;
+    width: 17vh;
+    height: 17vh;
+    filter: grayscale() none;
   }
 </style>
 {% endblock meta %}
@@ -69,6 +77,28 @@
                       </div>`;
             $('#myPost').append(row);
           }
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
+        alert('Error: ' + textStatus + ' - ' + errorThrown);
+      }
+    });
+
+    $.ajax({
+      url : "{% url 'my_account:show_json' %}",
+      dataType : 'json',
+      success: function (data) {
+        if (data.fields.user_point == 50) {
+          $('#bronze').css("filter: none;")
+        }
+        if (data.fields.user_point == 100) {
+          $('#silver').css("filter: none;")
+        }
+        if (data.fields.user_point == 100) {
+          $('#gold').css("filter: none;")
+        }
+        if (data.fields.user_point == 100) {
+          $('#platinum').css("filter: none;")
         }
       },
       error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
@@ -116,6 +146,18 @@
   <aside id="aside">
     <h3>Achievments / Badge</h3>
     <h5>User Point : {{user_data.fields.user_point}}</h5>
+    <div class="row">
+      <div id="img_col" class="col" align="center">
+        <img id="bronze" class="myBadge" src="bronze.png" alt="bronze">
+        <img id="silver" class="myBadge" src="silver.png" alt="silver">
+      </div>
+    </div>
+    <div class="row">
+      <div id="img_col" class="col" align="center">
+        <img id="gold" class="myBadge" src="gold.png" alt="gold">
+        <img id="platinum" class="myBadge" src="platinum.png" alt="paltinum">
+      </div>
+    </div>
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
     <div id="myEvent" class="col">
