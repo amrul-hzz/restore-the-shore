@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'example_app',
     'my_account',
     'create_event',
+    'leaderboard',
 ]
 
 MIDDLEWARE = [
