@@ -40,7 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'example_app',
+<<<<<<< HEAD
     'my_account',
+=======
+<<<<<<< HEAD
+    'my_account',
+=======
+    'create_event',
+>>>>>>> f2f7a5b91f703b794bdd5ace32c21c26fbe05bd8
+>>>>>>> c04765edf34ff21c53bbec6c3a574f77843a99e0
 ]
 
 MIDDLEWARE = [
