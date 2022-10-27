@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
     path('create-event/', include('create_event.urls')),
+    path('timeline/', include('timeline.urls'))
 ]
