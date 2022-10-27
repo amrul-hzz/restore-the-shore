@@ -13,3 +13,4 @@ class UserAccount(models.Model):
 
     # post di forum yang author nya user ini bisa langsung cek dari database forum aja
 
+    

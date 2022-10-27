@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'example_app',
     'my_account',
+    'create_event',
+    'leaderboard',
 ]
 
 MIDDLEWARE = [
