@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .main {
+            text-align:center; 
+        }
+        .usernametitle {
+            color:#00008B;
+            font-size:20px;
+            font-weight:bold;
+        }
+        .tabletitle {
+            color:#DC143C;
+            font-size:20px;
+            font-weight:bold;
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 100%;
+            color:#000000;
+            font-size:20px;
+            font-weight:bold;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+<body style="background-color:#ADD8E6">
+    
+    <h1>Restore the Shore</h1>
+
+    <button>
+        <a href="{% url 'todolist:create-task' %}">Add New Task</a>
+    </button>
+
+    <h5>Last login session: {{ last_login }}</h5>
+    <button><a href="{% url 'landing_page:logout' %}">Logout</a></button>
+
+    
+</body>
+{% endblock content %}
