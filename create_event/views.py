@@ -29,7 +29,6 @@ def add_event(request):
             form = form.save(commit = False)
             form.user = request.user
             form.save()
-            messages.success(request, 'Event telah berhasil dibuat!')
     context = {'form':form}
     return render(request, 'create_event.html', context)
 
