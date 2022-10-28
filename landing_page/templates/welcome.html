@@ -46,19 +46,17 @@
 <body style="background-color:#ADD8E6">
     
     <h1 style="color:midnightblue">Welcome to Restore the Shore!</h1>
+    {% if request.user.is_authenticated %}
+        <div></div>
+    {% else %}
+        <button type="button" class="btn">
+            <a href="{% url 'landing_page:login_user' %}">Log In</a>
+        </button>
 
-    <div></div>
-    <button type="button" class="btn">
-        <a href="{% url 'landing_page:login_user' %}">Sign In</a>
-    </button>
-
-    <button type="button" class="btn">
-        <a href="{% url 'landing_page:register' %}">Sign Up</a>
-    </button>
-
-    <h5><!--Last login session: {{ last_login }}--></h5>
-    <button><a href="{% url 'landing_page:logout_user' %}">Logout</a></button>
-
+        <button type="button" class="btn">
+            <a href="{% url 'landing_page:register' %}">Sign Up</a>
+        </button>
+    {% endif %}
     
 </body>
 {% endblock content %}
