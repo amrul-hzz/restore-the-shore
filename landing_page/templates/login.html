@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block meta %}
+<title>Login (masih blm kelar ya)</title>
+{% endblock meta %}
+
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .main {
+            text-align:center; 
+        }
+        .logintitle {
+            color:#483D8B;
+            font-size:20px;
+            font-weight:bold;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .tabletitle {
+            color:#DC143C;
+            font-size:20px;
+            font-weight:bold;
+        }
+        .logincontent {
+            color:#000000;
+            font-size:20px;
+            font-weight:bold;
+            font-family:Arial, Helvetica, sans-serif
+        }
+    </style>
+</head>
+<body style="background-color:#ADD8E6">
+    <div class = "login">
+
+        <h1 class="logintitle">Login</h1>
+    
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table class="logincontent">
+                <tr>
+                    <td>Username: </td>
+                    <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                </tr>
+                        
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                </tr>
+    
+                <tr>
+                    <td></td>
+                    <td><input class="btn login_btn" type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
+    
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}     
+            
+        Belum mempunyai akun? <a href="{% url 'landing_page:register' %}">Buat Akun</a>
+    
+    </div>
+    
+</body>
+
+{% endblock content %}

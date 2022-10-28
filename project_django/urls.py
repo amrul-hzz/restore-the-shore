@@ -15,10 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
+    path('myaccount/', include('my_account.urls')),
     path('create-event/', include('create_event.urls')),
-    path('timeline/', include('timeline.urls'))
+    path('leaderboard/', include('leaderboard.urls')),
+    path('welcome/', include('landing_page.urls')),
+    path('timeline/', include('timeline.urls')),
+
 ]
+
+# direct to media
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

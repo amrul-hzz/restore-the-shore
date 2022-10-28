@@ -61,11 +61,13 @@
                 <div class="card-header overflow-hidden p-0">
                 {% if data.fotoPantai %}
                 <img class="w-40 h-30 card-img-top" src="{{data.fotoPantai}}" >
+
                 {% endif %}
                 </div>
                 
                 <div class="card-body">
                 
+
                 <h5 class="card-title">Event: {{data.namaEvent}}</h5>
                 <h5 class="card-title">Pantai: {{data.namaPantai}}</h5>
                 <h5 class="card-title">Lokasi: {{data.alamatPantai}}</h5>
@@ -83,6 +85,8 @@
                 </div>
             </div>
         </div>
+
         <br>
+
         {% endfor %}
     </div>
