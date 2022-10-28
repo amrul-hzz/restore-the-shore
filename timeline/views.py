@@ -13,5 +13,5 @@ def show_data(request):
     return render(request, "timeline.html", response)
 
 def delete_card(request, pk):
-    UMKM.objects.get(id=pk).delete()
+    Event.objects.get(id=pk).delete()
     return redirect('timeline:show_data')
