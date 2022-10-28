@@ -9,7 +9,7 @@
     <style>
         .btn {
             color: #FFFFFF;
-            background-color: #8FBC8F
+            background-color: #ced5f6
         }
         .main {
             text-align:center; 
@@ -45,15 +45,18 @@
 </head>
 <body style="background-color:#ADD8E6">
     
-    <h1>Restore the Shore</h1>
+    <h1 style="color:midnightblue">Welcome to Restore the Shore!</h1>
+    {% if request.user.is_authenticated %}
+        <div></div>
+    {% else %}
+        <button type="button" class="btn">
+            <a href="{% url 'landing_page:login_user' %}">Log In</a>
+        </button>
 
-    <button type="button" class="btn">
-        <a href="{% url 'landing_page:login_user' %}">Login</a>
-    </button>
-
-    <h5>Last login session: {{ last_login }}</h5>
-    <button><a href="{% url 'landing_page:logout_user' %}">Logout</a></button>
-
+        <button type="button" class="btn">
+            <a href="{% url 'landing_page:register' %}">Sign Up</a>
+        </button>
+    {% endif %}
     
 </body>
 {% endblock content %}
