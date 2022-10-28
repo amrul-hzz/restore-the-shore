@@ -1,47 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block meta %}
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function(){
-        // $("#tambah").click(function(e){
-        //     if ($("#namaEvent").val() == '' || $("#namaPantai").val() == '' || $("#alamatPantai").val() == '' || $("#jumlahPartisipan").val() == '' 
-        //     || $("#fotoPantai").val() == '' || $("#deskripsi").val() == '' || $("#tanggalMulai").val() == '' || $("#tanggalAkhir").val() == '') {
-        //         alert("input masih kosong");
-        //     }
-        // });
-
-        $("#new-task").submit(function(e){
-            e.preventDefault();
-            $.post("/create-event/add/", { 
-                namaEvent: $("#namaEvent").val(), 
-                namaPantai: $("#namaPantai").val(),
-                alamatPantai: $("#alamatPantai").val(), 
-                jumlahPartisipan: $("#jumlahPartisipan").val(),
-                fotoPantai: $("#fotoPantai").val(), 
-                deskripsi: $("#deskripsi").val(),
-                tanggalMulai: $("#tanggalMulai").val(),
-                tanggalAkhir: $("#tanggalAkhir").val(),
-            }).done(function (data) {
-                $("#namaEvent").val(""), 
-                $("#namaPantai").val(""), 
-                $("#alamatPantai").val(""), 
-                $("#jumlahPartisipan").val(""), 
-                $("#fotoPantai").val(""), 
-                $("#deskripsi").val(""), 
-                $("#tanggalMulai").val(""), 
-                $("#tanggalAkhir").val("");
-            });
-        });
-    });
-</script>
+<script src="{%static 'js/script.js' %}" defer></script>
 {% endblock meta %}
 
 {% block content %}
 <div class="flex">
-<div class = "flex w-full h-screen bg-no-repeat bg-cover bg-center"
+<div class = "flex w-full h-screen bg-no-repeat bg-cover bg-center -mt-9"
 style="background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');">
-<div id="new-task" class="grid h-screen w-full fixed bg-black bg-opacity-10 z-100 overflow-y-auto">
+<div id="new-task" class="grid h-screen w-full fixed bg-black bg-opacity-10 z-100 overflow-y-auto pb-4">
     <div class= "bg-white shadow-lg lg:p-14 p-8 rounded-2xl lg:my-16 lg:mx-28 m-5">
         <div class="flex flex-col justify-center gap-5">
           <h1 class="lg:text-5xl text-2xl font-bold lg:pb-3">Tambah Event Baru</h1>
@@ -87,21 +57,9 @@ style="background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-16
                         <div class="flex w-full justify-center">
                             <img id="output" class="flex lg:w-[60%] w-[90%]"/>
                         </div>
-                        <script>
-                        var loadFile = function(event) {
-                            var output = document.getElementById('output');
-                            var link = document.getElementById('fotoPantai').value;
-                            output.src = link;
-                            output.classList.add("mt-1");
-                            output.classList.add("rounded-md");
-                            output.classList.add("p-2");
-                            output.classList.add("border");
-                            output.classList.add("border-slate-400");
-                        };
-                        </script>
                     </div>
                     <div class="flex flex-col gap-y-1">
-                        <label for="deskripsi" class="text-md font-bold">Deskrispi</label>
+                        <label for="deskripsi" class="text-md font-bold">Deskripsi</label>
                         <textarea id="deskripsi" placeholder="Title" class="px-2 py-1 rounded-md bg-gray-100 border border-gray-200 placeholder-gray-500 text-md focus:outline-none focus:border-gray-400 focus:bg-white"></textarea>
                     </div>
                 </div>

@@ -20,7 +20,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
     path('myaccount/', include('my_account.urls')),
-    path('create_event/', include('create_event.urls')),
+    path('create-event/', include('create_event.urls')),
+    path('leaderboard/', include('leaderboard.urls')),
+    path('welcome/', include('landing_page.urls')),
+    path('timeline/', include('timeline.urls')),
+    path('forum/', include('forum.urls')),
+
 ]
 
 

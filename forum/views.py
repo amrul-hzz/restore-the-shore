@@ -1,8 +1,12 @@
-from django.shortcuts import render
 from forum.models import Post, Comment
 from .forms import PostForm, CommentForm
+
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 import datetime
 
 # Create your views here.
