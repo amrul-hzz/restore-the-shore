@@ -40,11 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'example_app',
-<<<<<<< HEAD
     'my_account',
-=======
-    'create_event',
->>>>>>> f2f7a5b91f703b794bdd5ace32c21c26fbe05bd8
 ]
 
 MIDDLEWARE = [
@@ -142,6 +138,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
