@@ -22,7 +22,7 @@
   aside,
   header,
   nav {
-    background: rgb(241, 241, 241);
+    background: rgba(255, 255, 255, 0.89);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
@@ -32,7 +32,8 @@
   article,
   aside {
     float: left;
-    height: 100vh;
+    min-height: 100vh;
+    height: max-content;
     margin-right: 0.5%;
     margin-left: 0.5%;
     border-radius: 1vh;
@@ -47,7 +48,7 @@
   }
 
   .row {
-    margin: 0.5vh;
+    margin: 1vmax;
   }
 
   .myBadge {
@@ -56,6 +57,7 @@
     height: 17vh;
     filter: grayscale();
   }
+
 </style>
 {% endblock meta %}
 
@@ -66,16 +68,14 @@
 <script>
   $(document).ready(function () {
     $.ajax({
-      url : "% url 'forum:show_json' %}",
-      dataType : 'json',
+      url: "% url 'forum:show_json' %}",
+      dataType: 'json',
       success: function (data) {
         for (var i = 0; i < data.length; i++) {
-          if (data[i].fields.poster == user) {     
+          if (data[i].fields.poster == user) {
             var row = `<div class="row">
-                        <div id="card-${data[i].pk}" class="card m-4 mx-auto">
-                          <p>This is My Post</p>
-                        </div>
-                      </div>`;
+                          <div class="card">This is my Post</div>
+                       </div>`;
             $('#myPost').append(row);
           }
         }
@@ -86,8 +86,8 @@
     });
 
     $.ajax({
-      url : "{% url 'my_account:show_json' %}",
-      dataType : 'json',
+      url: "{% url 'my_account:show_json' %}",
+      dataType: 'json',
       success: function (data) {
         if (data.fields.user_point == 50) {
           $('#bronze').css("filter: none;")
@@ -111,42 +111,28 @@
 
 <div id="wrapper">
   <header>
-    <nav class="navbar navbar-expand-lg max-width">
-      <div class="container-fluid">
-        <a id="test" class="navbar-brand mb-0 h3" href=#>
-          RTS
-        </a>
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a class="btn btn-secondary" type="button" href="{% url 'landing_page:logout_user' %}">
-              Logout
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
     <h1>Hi {{user.get_username}},</h1>
   </header>
   <article id="article">
     <h3>My Post</h3>
     <div id="myPost" class="col">
       <div class="row">
-        <div class="card">..</div>
+        <div class="card">This is my Post</div>
       </div>
       <div class="row">
-        <div class="card">..</div>
+        <div class="card">This is my Post</div>
       </div>
       <div class="row">
-        <div class="card">..</div>
+        <div class="card">This is my Post</div>
       </div>
       <div class="row">
-        <div class="card">..</div>
+        <div class="card">This is my Post</div>
       </div>
     </div>
   </article>
   <aside id="aside">
     <h3>Achievments / Badge</h3>
-    <h5>User Point : {{user_data.fields.user_point}}</h5>
+    <h5>User Point : {{user_data.user_point}}</h5>
     <div class="row">
       <div id="img_col" class="col" align="center">
         <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
@@ -162,6 +148,28 @@
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
     <div id="myEvent" class="col">
+      <div class="row">
+        <div class="card">
+          <p>Nama Event :{{event.namaEvent}}</p>
+          <p>Nama Pantai :{{event.namaPantai}}</p>
+          <p>Tangal : {{event.tanggalMulai}} - {{event.tanggalAkhir}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card">
+          <p>Nama Event :{{event.namaEvent}}</p>
+          <p>Nama Pantai :{{event.namaPantai}}</p>
+          <p>Tangal : {{event.tanggalMulai}} - {{event.tanggalAkhir}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card">
+          <p>Nama Event :{{event.namaEvent}}</p>
+          <p>Nama Pantai :{{event.namaPantai}}</p>
+          <p>Tangal : {{event.tanggalMulai}} - {{event.tanggalAkhir}}</p>
+        </div>
+      </div>
+      
       {% for event in events_joined %}
       <div class="row">
         <div class="card">
