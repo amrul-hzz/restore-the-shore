@@ -26,8 +26,7 @@ urlpatterns = [
     path('leaderboard/', include('leaderboard.urls')),
     path('welcome/', include('landing_page.urls')),
     path('timeline/', include('timeline.urls')),
-    
-    
+
 ]
 
 # direct to media

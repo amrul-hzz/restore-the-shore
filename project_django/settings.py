@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'create_event',
     'timeline',
     'landing_page',
+
 ]
 
 MIDDLEWARE = [
