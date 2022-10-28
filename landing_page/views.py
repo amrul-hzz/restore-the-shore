@@ -10,10 +10,13 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def welcome(request):
-    context = {
-        'last_login': request.COOKIES['last_login']
-    }
-    return render(request, "welcome.html", context)
+    #context = {
+    #    'last_login': request.COOKIES['last_login'],
+    #}
+    return render(request, "welcome.html")
+
+def main(request):
+    return render(request, "main.html")
 
 def register(request):
     form = UserCreationForm()
@@ -34,10 +37,10 @@ def login_user(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(reverse("landing_page:welcome"))
-            response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return response
+            login(request, user) # melakukan login terlebih dahulu
+            #response = HttpResponseRedirect(reverse("landing_page:welcome")) # membuat response
+            #response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
+            return redirect('landing_page:main')
         else:
             messages.info(request, 'Username atau Password salah!')
     context = {}
@@ -45,6 +48,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('landing_page:login_user'))
-    response.delete_cookie('last_login')
-    return response
+    #response = HttpResponseRedirect(reverse('landing_page:login_user'))
+    #response.delete_cookie('last_login')
+    return redirect('landing_page:welcome')
