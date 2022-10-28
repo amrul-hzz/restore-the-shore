@@ -1,0 +1,37 @@
+<h1>TIMELINE</h1>
+
+<div class="container">
+    <br>
+    <h1 class="text-center">LOCAL SHOPS</h1>
+    <br>
+    <div class ="row">
+        {% for data in datalist %}
+        <div class ="col-12 col-md-6 col-lg-4 list-umkm">
+            <div class ="card">
+                <div class="card-header overflow-hidden p-0">
+                {% if data.fotoPantai %}
+                <img class="w-100" src="{{data.fotoPantai}}" >
+                {% endif %}
+                </div>
+                
+                <div class="card-body">
+                
+                <h5 class="card-title">{{data.namaEvent}}</h5>
+                <h5 class="card-title">{{data.namaPantai}}</h5>
+                <h5 class="card-title">{{data.alamatPantai}}</h5>
+                <h5 class="card-title">{{data.jumlahPartisipan}}</h5>
+                <h5 class="card-title">{{data.deskripsi}}</h5>
+                <h5 class="card-title">{{data.tanggalMulai}}</h5>
+                <h5 class="card-title">{{data.tanggalAkhir}}</h5>
+
+                <div>
+                    <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'timeline:delete_card' data.pk %}" title="">Delete</a></button>
+                    
+                </div>
+                
+                
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
