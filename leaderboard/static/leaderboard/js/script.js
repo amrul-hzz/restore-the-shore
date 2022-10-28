@@ -4,10 +4,10 @@ var infinite = new Waypoint.Infinite({
     offset: 'bottom-in-view',
 
     onBeforePageLoad: function () {
-        $('.loading').show();
+        $('.spinner-border').show();
     },
     onAfterPageLoad: function () {
-        $('.loading').hide();
+        $('.spinner-border').hide();
     }
 
 });

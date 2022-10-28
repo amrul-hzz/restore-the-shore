@@ -1,0 +1,48 @@
+.searchbox {
+    overflow: hidden;
+    float: right;
+  }
+
+.searchbox input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    border: 2px solid #ccc;
+}
+
+.searchbox button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.searchbox button:hover {
+    background: #ccc;
+}
+
+
+@media screen and (max-width: 600px) {
+    .searchbox {
+        float: none;
+    }
+    .searchbox input[type=text], .searchbox button {
+        float: none;
+        display: block;
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .searchbox input[type=text] {
+        border: 1px solid rgb(0, 0, 0);
+    }
+}
