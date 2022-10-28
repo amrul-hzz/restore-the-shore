@@ -37,7 +37,7 @@ def login_user(request):
             login(request, user) # melakukan login terlebih dahulu
             #response = HttpResponseRedirect(reverse("landing_page:welcome")) # membuat response
             #response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return redirect('landing_page:main')
+            return redirect('landing_page:welcome')
         else:
             messages.info(request, 'Username atau Password salah!')
     context = {}
