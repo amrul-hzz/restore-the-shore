@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.core import serializers
 
 # Create your views here.
-@login_required(login_url='create_event:login')
+@login_required(login_url='landing_page:login_user')
 def show_account(request):  
     # setiap register buat juga object UserAccount caranya UserAccount.objects.create(user = ..., user_point = 0)
     # Tiap join event tambahin events_joined caranya UserAccount.objects.get(user = request.user).events_joined.add(Event) kayaknya

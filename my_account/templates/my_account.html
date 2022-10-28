@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block meta %}
 <title>My Account</title>
@@ -9,7 +10,7 @@
   body {
     margin: 0;
     padding: 0;
-    background-color: rgb(255, 255, 255);
+    background-image: url(https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663);
   }
 
   #wrapper {
@@ -53,7 +54,7 @@
     margin: 1vh;
     width: 17vh;
     height: 17vh;
-    filter: grayscale() none;
+    filter: grayscale();
   }
 </style>
 {% endblock meta %}
@@ -117,7 +118,7 @@
         </a>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a class="btn btn-secondary" type="button" href=#>
+            <a class="btn btn-secondary" type="button" href="{% url 'landing_page:logout_user' %}">
               Logout
             </a>
           </li>
@@ -148,14 +149,14 @@
     <h5>User Point : {{user_data.fields.user_point}}</h5>
     <div class="row">
       <div id="img_col" class="col" align="center">
-        <img id="bronze" class="myBadge" src="bronze.png" alt="bronze">
-        <img id="silver" class="myBadge" src="silver.png" alt="silver">
+        <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
+        <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
       </div>
     </div>
     <div class="row">
       <div id="img_col" class="col" align="center">
-        <img id="gold" class="myBadge" src="gold.png" alt="gold">
-        <img id="platinum" class="myBadge" src="platinum.png" alt="paltinum">
+        <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
+        <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
       </div>
     </div>
     <hr style="border-top: 2px dashed;">

@@ -22,6 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
     path('myaccount/', include('my_account.urls')),
+    path('create-event/', include('create_event.urls')),
+    path('leaderboard/', include('leaderboard.urls')),
+    path('welcome/', include('landing_page.urls')),
+    path('timeline/', include('timeline.urls')),
+    
     
 ]
 
