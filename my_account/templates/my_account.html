@@ -22,7 +22,7 @@
   aside,
   header,
   nav {
-    background: rgba(255, 255, 255, 0.89);
+    background: rgba(255, 255, 255, 0.938);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
@@ -80,9 +80,6 @@
           }
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
-        alert('Error: ' + textStatus + ' - ' + errorThrown);
-      }
     });
 
     $.ajax({
@@ -102,9 +99,6 @@
           $('#platinum').css("filter: none;")
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) { // jika request gagal tampilkan error message
-        alert('Error: ' + textStatus + ' - ' + errorThrown);
-      }
     });
   });
 </script>
