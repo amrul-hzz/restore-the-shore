@@ -15,9 +15,6 @@ def welcome(request):
     #}
     return render(request, "welcome.html")
 
-def main(request):
-    return render(request, "main.html")
-
 def register(request):
     form = UserCreationForm()
 
