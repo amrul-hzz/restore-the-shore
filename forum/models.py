@@ -1,5 +1,5 @@
 from django.db import models
-from my_account.models import UserAccount
+from landing_page.models import UserAccount
 
 # Create your models here.
 class Post(models.Model):
