@@ -50,6 +50,7 @@ def add_event(request):
         tanggalMulai = tanggalMulai,
         tanggalAkhir = tanggalAkhir,
     )
+    new_event.save()
     return JsonResponse({
         "pk" : new_event.pk, "fields": {
         "namaEvent" : new_event.namaEvent,
@@ -68,6 +69,15 @@ def delete_event(request, id):
     data_delete = Event.objects.get(pk = id)
     data_delete.delete()
     return redirect("create_event:show_create_event")
+
+@user_passes_test(lambda u: u.is_superuser)
+def show_more_info(request, id):
+    data_info = Event.objects.get(pk = id)
+    context = {
+        'info' : data_info,
+    }
+    return render(request, "show_info.html", context)
+
 
 def show_json(request):
     data_event = Event.objects.filter(user = request.user)
