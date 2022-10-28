@@ -46,17 +46,25 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 </head>
 
-
-<h1>TIMELINE</h1>
-
+<body>
+  <h1>TIMELINE</h1>
+  <div class="header-bottom-set dropdown">
+    <button class="dropdown-toggle neader-action-btn" data-bs-toggle="dropdown">Default <i class="fafa-angle-down"></i></button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <li><a class="dropdown-item" href="#">Nama Event</l1>
+      <li><a class="dropdown-item" href="#">Lokasi</li>
+      <li><a class="dropdown-item" href="#">Tanggal</li>
+    </ul>
+  </div>
 
 <div class="container">
     <br>
     
     
-    <div class ="row">
-        {% for data in datalist %}
-        <div class ="col-12 col-md-6 col-lg-4 list-umkm">
+    <div class ="row ">
+        
+        <div class ="col-12 col-md-6 col-lg-4 " id="data_list">
+          <!-- {% for data in datalist %}
             <div class ="card ratio-4x3">
                 <div class="card-header overflow-hidden p-0">
                 {% if data.fotoPantai %}
@@ -76,17 +84,61 @@
                 <h5 class="card-title">Tanggal Mulai: {{data.tanggalMulai}}</h5>
                 <h5 class="card-title">Tanggal Akhir: {{data.tanggalAkhir}}</h5>
 
-                <div>
-                    <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'timeline:delete_card' data.pk %}" title="">Join</a></button>
-                    
-                </div>
-                
+              
                 
                 </div>
             </div>
+          {% endfor %} -->
         </div>
 
         <br>
 
-        {% endfor %}
+        
     </div>
+</body>
+
+<script>
+  $(document).ready(function(){
+    loadData();
+      
+    console.log("halo");
+  })
+
+  const card = (data) => `
+    
+      <div class ="card ratio-4x3" id="${data.pk}-card">
+          <div class="card-header overflow-hidden p-0">
+  
+          <img class="w-40 h-30 card-img-top" src=${data.fields.fotoPantai} >
+
+        
+          </div>
+          
+          <div class="card-body">
+          
+
+          <h5 class="card-title">Event: ${data.fields.namaEvent}</h5>
+          <h5 class="card-title">Pantai: ${data.fields.namaPantai}</h5>
+          <h5 class="card-title">Lokasi: ${data.fields.alamatPantai}</h5>
+          <h5 class="card-title">Partisipan: ${data.fields.jumlahPartisipan}</h5>
+          <h5 class="card-title">Deskripsi: ${data.fields.deskripsi}</h5>
+          <h5 class="card-title">Tanggal Mulai: ${data.fields.tanggalMulai}</h5>
+          <h5 class="card-title">Tanggal Akhir: ${data.fields.tanggalAkhir}</h5>
+
+          
+          
+          
+          </div>
+      </div>
+
+      `
+
+  function loadData(){
+    $.get('../create-event/json/', function (data) {
+      for(var i = 0; i < data.length; i++){
+        console.log(data[i])
+        $('#data_list').append(card(data[i]))
+      }
+  })
+  }
+</script>
