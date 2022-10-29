@@ -10,6 +10,8 @@ from django.shortcuts import render
 import datetime
 
 # Create your views here.
+@login_required(login_url="/landing_page/login_user/")
+@csrf_exempt
 def show_forum(request):
     posts_data = Post.objects.all()
     context = {
@@ -24,7 +26,6 @@ def show_forum_json(request):
 @login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_post(request):
-    form = PostForm()
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -37,33 +38,36 @@ def add_post(request):
                 "pk": form.pk,
                 "fields":
                 {
-                    "creator": form.creator,
+                    "creator": form.creator.username,
                     "date": form.date,
                     "content": form.content,
                     "image": form.image
                 }
             });
+    else:
+        return HttpResponseBadRequest('Invalid request')
 
 @login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_comment(request, id):
     if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit = False)
+            form.creator = request.user
+            form.date = datetime.datetime.now()
+            form.original_post = Post.objects.filter(pk=id)
+            form.save()
 
-        creator = request.user
-        date = datetime.datetime.now()
-        content = request.POST.get("content")
-        original_post = Post.objects.get(pk=id)
-
-        new_comment = Comment(creator=creator, date=date, content=content, original_post=original_post)
-        new_comment.save()
-
-        return JsonResponse({
-            "pk": new_comment.pk,
-            "fields":
-            {
-                "user": new_comment.creator.username,
-                "date": new_comment.date,
-                "content": new_comment.content,
-                "original_post": id
-            }
-        })
+            return JsonResponse({
+                "pk": form.pk,
+                "fields":
+                {
+                    "creator": form.creator.username,
+                    "date": form.date,
+                    "content": form.content,
+                    "original_post": id
+                }
+            });
+    else:
+        return HttpResponseBadRequest('Invalid request')
