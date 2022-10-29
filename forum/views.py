@@ -24,34 +24,33 @@ def show_forum_json(request):
 @login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_post(request):
+    form = PostForm()
     if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit = False)
+            form.creator = request.user
+            form.date = datetime.datetime.now()
+            form.save()
 
-        creator = request.user
-        date = datetime.datetime.today()
-        content = request.POST.get("content")
-        image = request.POST.get("image")
+            return JsonResponse({
+                "pk": form.pk,
+                "fields":
+                {
+                    "creator": form.creator,
+                    "date": form.date,
+                    "content": form.content,
+                    "image": form.image
+                }
+            });
 
-        new_post = Post(creator=creator, date=date, content=content, image=image)
-        new_post.save()
-
-        return JsonResponse({
-            "pk": new_post.pk,
-            "fields":
-            {
-                "user": new_post.creator.username,
-                "date": new_post.date,
-                "content": new_post.content,
-                "image": new_post.image
-            }
-        })
-    
 @login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_comment(request, id):
     if request.method == "POST":
 
         creator = request.user
-        date = datetime.datetime.today()
+        date = datetime.datetime.now()
         content = request.POST.get("content")
         original_post = Post.objects.get(pk=id)
 
