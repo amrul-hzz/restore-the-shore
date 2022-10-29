@@ -21,31 +21,50 @@ def show_forum_json(request):
     posts_data = Post.objects.all()
     return HttpResponse(serializers.serialize("json", posts_data), content_type="application/json")
 
-@login_required(login_url="/create-event/login/")
+@login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_post(request):
-    form = PostForm()
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit = False)
-            form.creator = request.user
-            form.date = datetime.date.today()
-            form.save()
+    if request.method == "POST":
+
+        creator = request.user
+        date = datetime.datetime.today()
+        content = request.POST.get("content")
+        image = request.POST.get("image")
+
+        new_post = Post(creator=creator, date=date, content=content, image=image)
+        new_post.save()
+
+        return JsonResponse({
+            "pk": new_post.pk,
+            "fields":
+            {
+                "user": new_post.creator.username,
+                "date": new_post.date,
+                "content": new_post.content,
+                "image": new_post.image
+            }
+        })
     
-    return JsonResponse(form) # not so sure about this
-    
-@login_required(login_url="/create-event/login/")
+@login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
 def add_comment(request, id):
-    form = CommentForm()
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit = False)
-            form.creator = request.user
-            form.date = datetime.date.today()
-            form.original_post = Post.objects.all().filter(pk=id)
-            form.save()
+    if request.method == "POST":
 
-    return JsonResponse(form) # not so sure about this
+        creator = request.user
+        date = datetime.datetime.today()
+        content = request.POST.get("content")
+        original_post = Post.objects.get(pk=id)
+
+        new_comment = Comment(creator=creator, date=date, content=content, original_post=original_post)
+        new_comment.save()
+
+        return JsonResponse({
+            "pk": new_comment.pk,
+            "fields":
+            {
+                "user": new_comment.creator.username,
+                "date": new_comment.date,
+                "content": new_comment.content,
+                "original_post": id
+            }
+        })
