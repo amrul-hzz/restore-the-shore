@@ -30,9 +30,68 @@ def add_event(request):
             form = form.save(commit = False)
             form.user = request.user
             form.save()
-    context = {'form':form}
-    return render(request, 'create_event.html', context)
+            return JsonResponse({
+                "pk" : form.pk, "fields": {
+                "namaEvent" : form.namaEvent,
+                "namaPantai" : form.namaPantai,
+                "alamatPantai" : form.alamatPantai,
+                "jumlahPartisipan" : form.jumlahPartisipan,
+                "fotoPantai" : form.fotoPantai,
+                "deskripsi" : form.deskripsi,
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
+            }})
+
+@user_passes_test(lambda u: u.is_superuser)
+@csrf_exempt
+def delete_event(request, id):
+    data_delete = Event.objects.get(pk = id)
+    data_delete.delete()
+    return redirect("create_event:show_create_event")
+
+@user_passes_test(lambda u: u.is_superuser)
+def show_more_info(request, id):
+    data_info = Event.objects.get(pk = id)
+    context = {
+        'info' : data_info,
+    }
+    return render(request, "show_info.html", context)
+
 
 def show_json(request):
     data_event = Event.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Akun telah berhasil dibuat!')
+            return redirect('create_event:login_user')
+    
+    context = {'form':form}
+    return render(request, 'register.html', context)
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user) # melakukan login terlebih dahulu
+            response = HttpResponseRedirect(reverse("create_event:show_create_event")) # membuat response
+            response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
+            return response
+        else:
+            messages.info(request, 'Username atau Password salah!')
+    context = {}
+    return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('create_event:login_user'))
+    response.delete_cookie('last_login')
+    return response
