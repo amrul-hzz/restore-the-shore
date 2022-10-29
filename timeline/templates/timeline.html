@@ -48,6 +48,7 @@
 
 <body>
   <h1>TIMELINE</h1>
+  {% if request.user.is_authenticated %}
   <div class="header-bottom-set dropdown">
     <button class="dropdown-toggle neader-action-btn" data-bs-toggle="dropdown">Default <i class="fafa-angle-down"></i></button>
     <ul class="dropdown-menu dropdown-menu-right">
@@ -95,6 +96,9 @@
 
         
     </div>
+  {% endif %}
+  
+ 
 </body>
 
 <script>
@@ -104,12 +108,36 @@
     console.log("halo");
   })
 
+  
+  // function joinEvent(id) {
+  //           $.ajax({
+  //               url: ` '/timeline/join_event/id'`,
+  //               type: 'POST',
+  //               success: function (result) {
+  //                  
+  //               }
+  //           });
+  //       }
+
+
+  $('#join-${id}').click(function () {
+    var namaEvent = document.getElementById("#{$id}-namaEvent")
+                $.post(
+                    '/timeline/join-event/' + namaEvent + '/',
+                    {
+                        nama : fields.namaEvent
+
+                    },
+                  
+                )
+            })
+
   const card = (data) => `
     
       <div class ="card ratio-4x3" id="${data.pk}-card">
           <div class="card-header overflow-hidden p-0">
   
-          <img class="w-40 h-30 card-img-top" src=${data.fields.fotoPantai} >
+          <img class="w-40 h-30 card-img-top" src=${data.fields.fotoPantai} id="${data.pk}-foto">
 
         
           </div>
@@ -117,20 +145,20 @@
           <div class="card-body">
           
 
-          <h5 class="card-title">Event: ${data.fields.namaEvent}</h5>
-          <h5 class="card-title">Pantai: ${data.fields.namaPantai}</h5>
-          <h5 class="card-title">Lokasi: ${data.fields.alamatPantai}</h5>
-          <h5 class="card-title">Partisipan: ${data.fields.jumlahPartisipan}</h5>
-          <h5 class="card-title">Deskripsi: ${data.fields.deskripsi}</h5>
-          <h5 class="card-title">Tanggal Mulai: ${data.fields.tanggalMulai}</h5>
-          <h5 class="card-title">Tanggal Akhir: ${data.fields.tanggalAkhir}</h5>
+          <h5 class="card-title" id= "${data.pk}-namaEvent">Event: ${data.fields.namaEvent}</h5>
+          <h5 class="card-title" id= "${data.pk}-namaPantai">Pantai: ${data.fields.namaPantai}</h5>
+          <h5 class="card-title" id= "${data.pk}-alamatPantai">Lokasi: ${data.fields.alamatPantai}</h5>
+          <h5 class="card-title" id= "${data.pk}-jumlahPartisipan">Partisipan: ${data.fields.jumlahPartisipan}</h5>
+          <h5 class="card-title" id= "${data.pk}-deskripsi">Deskripsi: ${data.fields.deskripsi}</h5>
+          <h5 class="card-title" id= "${data.pk}-tanggalMulai">Tanggal Mulai: ${data.fields.tanggalMulai}</h5>
+          <h5 class="card-title" id= "${data.pk}-tanggalAkhir">Tanggal Akhir: ${data.fields.tanggalAkhir}</h5>
 
           
-          
+          <button id=join-${data.pk}>Join</button>
           
           </div>
       </div>
-
+      <br>
       `
 
   function loadData(){
