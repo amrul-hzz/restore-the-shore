@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -15,11 +16,11 @@ from django.views.decorators.csrf import csrf_exempt
 from create_event.forms import EventForm
 
 # Create your views here.
-@login_required(login_url="/create-event/login/")
+@user_passes_test(lambda u: u.is_superuser)
 def show_create_event(request):
     return render(request, "create_event.html")
 
-@login_required(login_url="/create-event/login/")
+@user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
 def add_event(request):
     form = EventForm()
@@ -29,45 +30,33 @@ def add_event(request):
             form = form.save(commit = False)
             form.user = request.user
             form.save()
-    context = {'form':form}
-    return render(request, 'create_event.html', context)
+            return JsonResponse({
+                "pk" : form.pk, "fields": {
+                "namaEvent" : form.namaEvent,
+                "namaPantai" : form.namaPantai,
+                "alamatPantai" : form.alamatPantai,
+                "jumlahPartisipan" : form.jumlahPartisipan,
+                "fotoPantai" : form.fotoPantai,
+                "deskripsi" : form.deskripsi,
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
+            }})
 
-# @login_required(login_url="/create-event/login/")
-# @csrf_exempt
-# def add_event(request):
-#     if request.method == "POST":
-#         user = request.user
-#         namaEvent = request.POST.get("namaEvent")
-#         namaPantai = request.POST.get("namaPantai")
-#         alamatPantai = request.POST.get("alamatPantai")
-#         jumlahPartisipan = request.POST.get("jumlahPartisipan")
-#         fotoPantai = request.POST.get("fotoPantai")
-#         deskripsi = request.POST.get("deskripsi")
-#         tanggalMulai = request.POST.get("tanggalMulai")
-#         tanggalAkhir = request.POST.get("tanggalAkhir")
-#         new_event = Event(
-#             user = user, 
-#             namaEvent = namaEvent,
-#             namaPantai = namaPantai,
-#             alamatPantai = alamatPantai,
-#             jumlahPartisipan = jumlahPartisipan,
-#             fotoPantai = fotoPantai,
-#             deskripsi = deskripsi,
-#             tanggalMulai = tanggalMulai,
-#             tanggalAkhir = tanggalAkhir,
-#         )
-#         new_event.save()
-#         return JsonResponse({
-#             "pk" : new_event.pk, "fields": {
-#             "namaEvent" : new_event.namaEvent,
-#             "namaPantai" : new_event.namaPantai,
-#             "alamatPantai" : new_event.alamatPantai,
-#             "jumlahPartisipan" : new_event.jumlahPartisipan,
-#             "fotoPantai" : new_event.fotoPantai,
-#             "deskripsi" : new_event.deskripsi,
-#             "tanggalMulai" : new_event.tanggalMulai,
-#             "tanggalAkhir" : new_event.tanggalAkhir,
-#         }})
+@user_passes_test(lambda u: u.is_superuser)
+@csrf_exempt
+def delete_event(request, id):
+    data_delete = Event.objects.get(pk = id)
+    data_delete.delete()
+    return redirect("create_event:show_create_event")
+
+@user_passes_test(lambda u: u.is_superuser)
+def show_more_info(request, id):
+    data_info = Event.objects.get(pk = id)
+    context = {
+        'info' : data_info,
+    }
+    return render(request, "show_info.html", context)
+
 
 def show_json(request):
     data_event = Event.objects.filter(user = request.user)
