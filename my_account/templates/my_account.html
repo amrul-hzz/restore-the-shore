@@ -55,7 +55,6 @@
     margin: 1vh;
     width: 17vh;
     height: 17vh;
-    filter: grayscale();
   }
 
 </style>
@@ -88,25 +87,6 @@
         }
       },
     });
-
-    $.ajax({
-      url: "{% url 'my_account:show_json' %}",
-      dataType: 'json',
-      success: function (data) {
-        if (data.fields.user_point >= 50) {
-          $('#bronze').css("filter: none;")
-        }
-        if (data.fields.user_point >= 100) {
-          $('#silver').css("filter: none;")
-        }
-        if (data.fields.user_point >= 100) {
-          $('#gold').css("filter: none;")
-        }
-        if (data.fields.user_point >= 100) {
-          $('#platinum').css("filter: none;")
-        }
-      },
-    });
   });
 </script>
 
@@ -122,22 +102,35 @@
   <aside id="aside">
     <h3>Badge</h3>
     <h5>Point : {{user_data.user_point}}</h5>
-    <div class="row">
-      <div id="img_col" class="col" align="center">
-        <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
-        <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
+    <div class="container">
+      <div id="myBadge" class="row row-cols-2">
+        {% if user_data.user_point >= 50 %}
+        <div class="col">
+          <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
+        </div>
+        {% endif %}
+        {% if user_data.user_point >= 100 %}
+        <div class="col">
+          <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
+        </div>
+        {% endif %}
+        {% if user_data.user_point >= 150 %}
+        <div class="col">
+          <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
+        </div>
+        {% endif %}
+        {% if user_data.user_point >= 200 %}
+        <div class="col">
+          <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
+        </div>
+        {% endif %}
       </div>
     </div>
-    <div class="row">
-      <div id="img_col" class="col" align="center">
-        <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
-        <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
-      </div>
-    </div>
+      
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
     <div id="myEvent" class="col">
-      {% for event in events_joined %}
+      {% for event in user_data.events_joined.all %}
       <div class="row">
         <div class="card">
           <p>{{event.namaEvent}}</p>
@@ -147,7 +140,6 @@
       </div>
       {% endfor %}
     </div>
-
   </aside>
 </div>
 
