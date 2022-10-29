@@ -14,7 +14,7 @@
                 $("#forum-posts").append(
                     `
                         <div class="post" id="post-${data.pk}">
-                            <div class="post-header">${data.fields.creator.name}</div>
+                            <div class="post-header">${data.fields.creator}</div>
                                 <div class="post-body">
                                     <img src="${data.fields.image}" class="post-image"/>
                                     <p class="post-content">${data.fields.content}</p>
