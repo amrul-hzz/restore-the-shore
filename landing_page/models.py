@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 #from create_event.models import Event
 
 # Create your models here.
-#class UserAccount(models.Model):
-  #  user = models.ForeignKey(User, on_delete=models.CASCADE)
-   # user_point = models.IntegerField(default = 0)
+class UserAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_point = models.IntegerField(default = 0)
     # import models dari Event
     #events_joined = models.ManyToManyField(Event)
 

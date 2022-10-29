@@ -11,16 +11,21 @@ from django.contrib.auth.decorators import login_required
 
 def welcome(request):
     #context = {
+    #    'this_user' : UserAccount.objects.filter(user = request.user)
     #    'last_login': request.COOKIES['last_login'],
     #}
     return render(request, "welcome.html")
 
+#ini bener gasih buat nyimpen ke database?
 def register(request):
     form = UserCreationForm()
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            user = request.user
+            new_user = UserAccount(user=user, user_point=0)
+            new_user.save()
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
             return redirect('landing_page:login')
