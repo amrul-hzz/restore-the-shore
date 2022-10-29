@@ -13,14 +13,17 @@
             function showPost(data){
                 $("#forum-posts").append(
                     `
-                        <div class="post" id="post-${data.pk}">
-                            <div class="post-header">${data.fields.creator}</div>
-                                <div class="post-body">
-                                    <img src="${data.fields.image}" class="post-image"/>
-                                    <p class="post-content">${data.fields.content}</p>
-                                </div>
-                            <div class="post-footer text-muted">Posted on ${data.fields.date}</div>
+                        <div class="row" style="margin:5px;">
+                            <div class="card" id="post-${data.pk}" style="outline:black;">
+                                <div class="card-header">${data.fields.creator.username}</div>
+                                    <div class="card-body">
+                                        <img src="${data.fields.image}" class="post-image"/>
+                                        <p class="card-content">${data.fields.content}</p>
+                                    </div>
+                                <div class="card-footer text-muted">Posted on ${data.fields.date}</div>
+                            </div>
                         </div>
+
                     `
                 );
             } 
@@ -32,7 +35,7 @@
                     content: $("#content").val(),
                     image: $("#image").val()
                 }).done(function(data){
-                    ShowPost(data);
+                    showPost(data);
 
                     const posts = document.getElementById("forum-posts");
                     posts.insertAdjacentElement("beforestart", `#post-${data.pk}`);
@@ -48,12 +51,31 @@
 {% endblock meta %}
 
 {% block content %}
+    <style type="text/css">
+        .column {
+            float: left;
+            width: 33.33%;
+        }
+
+        #add-post-button{
+            position: fixed;
+            bottom: 5%;
+            right: 5%;
+            border-radius: 50%;
+        }
+    </style>
 
     <!-- Infinite Posts -->
-    <div class="forum-posts" id="forum-posts"></div>
+    <div 
+        class="forum-posts h-100 d-flex align-items-center justify-content-center" 
+        id="forum-posts"
+        style="flex-direction:column-reverse;"
+    >
+    </div>
 
     <!-- Create New Post Modal Button -->
     <button
+        id="add-post-button"
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
