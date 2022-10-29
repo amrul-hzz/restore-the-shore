@@ -30,37 +30,17 @@ def add_event(request):
             form = form.save(commit = False)
             form.user = request.user
             form.save()
-    user = request.user
-    namaEvent = request.POST.get("namaEvent")
-    namaPantai = request.POST.get("namaPantai")
-    alamatPantai = request.POST.get("alamatPantai")
-    jumlahPartisipan = request.POST.get("jumlahPartisipan")
-    fotoPantai = request.POST.get("fotoPantai")
-    deskripsi = request.POST.get("deskripsi")
-    tanggalMulai = request.POST.get("tanggalMulai")
-    tanggalAkhir = request.POST.get("tanggalAkhir")
-    new_event = Event(
-        user = user, 
-        namaEvent = namaEvent,
-        namaPantai = namaPantai,
-        alamatPantai = alamatPantai,
-        jumlahPartisipan = jumlahPartisipan,
-        fotoPantai = fotoPantai,
-        deskripsi = deskripsi,
-        tanggalMulai = tanggalMulai,
-        tanggalAkhir = tanggalAkhir,
-    )
-    return JsonResponse({
-        "pk" : new_event.pk, "fields": {
-        "namaEvent" : new_event.namaEvent,
-        "namaPantai" : new_event.namaPantai,
-        "alamatPantai" : new_event.alamatPantai,
-        "jumlahPartisipan" : new_event.jumlahPartisipan,
-        "fotoPantai" : new_event.fotoPantai,
-        "deskripsi" : new_event.deskripsi,
-        "tanggalMulai" : new_event.tanggalMulai,
-        "tanggalAkhir" : new_event.tanggalAkhir,
-    }})
+            return JsonResponse({
+                "pk" : form.pk, "fields": {
+                "namaEvent" : form.namaEvent,
+                "namaPantai" : form.namaPantai,
+                "alamatPantai" : form.alamatPantai,
+                "jumlahPartisipan" : form.jumlahPartisipan,
+                "fotoPantai" : form.fotoPantai,
+                "deskripsi" : form.deskripsi,
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
+            }})
 
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
@@ -68,6 +48,15 @@ def delete_event(request, id):
     data_delete = Event.objects.get(pk = id)
     data_delete.delete()
     return redirect("create_event:show_create_event")
+
+@user_passes_test(lambda u: u.is_superuser)
+def show_more_info(request, id):
+    data_info = Event.objects.get(pk = id)
+    context = {
+        'info' : data_info,
+    }
+    return render(request, "show_info.html", context)
+
 
 def show_json(request):
     data_event = Event.objects.filter(user = request.user)
