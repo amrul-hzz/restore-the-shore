@@ -7,8 +7,6 @@ from landing_page.models import UserAccount
 # Create your views here.
 @login_required(login_url='landing_page:login_user')
 def show_account(request):  
-    if not UserAccount.objects.contains(UserAccount.objects.get(user = request.user)): # check if account already exist
-        UserAccount.objects.create(user = request.user, user_point = 0)
     data_user = UserAccount.objects.get(user = request.user)
     context = {
         'user_data' : data_user,
