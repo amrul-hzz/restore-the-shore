@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def welcome(request):
+    #if request.user.is_authenticated:
+    #    if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+    #        UserAccount.objects.create(user = request.user, user_point = 0)
     #context = {
     #    'this_user' : UserAccount.objects.filter(user = request.user)
     #    'last_login': request.COOKIES['last_login'],
@@ -23,9 +26,6 @@ def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = request.user
-            new_user = UserAccount(user=user, user_point=0)
-            new_user.save()
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
             return redirect('landing_page:login')
