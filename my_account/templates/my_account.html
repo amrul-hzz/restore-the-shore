@@ -49,9 +49,14 @@
   }
 
   .myBadge {
-    margin: 1vh;
-    width: 17vh;
-    height: 17vh;
+    width: 24vh;
+    height: 24vh;
+  }
+
+  #congrats {
+    font-size: medium;
+    font-weight: bold;
+    margin-top: 2%;
   }
 
 </style>
@@ -104,6 +109,7 @@
   <!-- My Posts -->
   <article id="article">
     <h3>My Posts</h3>
+    <hr style="border-top: 2px dashed;">
     <div 
         class="my-posts column h-100 d-flex align-items-center justify-content-center" 
         id="my-posts"
@@ -117,28 +123,30 @@
     <h3>Badge</h3>
     <h5>Point : {{user_data.user_point}}</h5>
     <div class="container">
-      <div id="myBadge" class="row row-cols-2">
-        {% if user_data.user_point >= 50 %}
-        <div class="col">
-          <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
+        {% if user_data.user_point >= 200 %}
+        <div class="col" style="align-items: center;">
+          <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
+          <p id="congrats">Congrats, You are a Platinum Member</p>
         </div>
-        {% endif %}
-        {% if user_data.user_point >= 100 %}
-        <div class="col">
-          <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
-        </div>
-        {% endif %}
-        {% if user_data.user_point >= 150 %}
+        {% elif user_data.user_point >= 150 %}
         <div class="col">
           <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
+          <p id="congrats">Congrats, You are a Gold Member</p>
         </div>
-        {% endif %}
-        {% if user_data.user_point >= 200 %}
+        {% elif user_data.user_point >= 100 %}
         <div class="col">
-          <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
+          <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
+          <p id="congrats">Congrats, You are a Silver Member</p>
         </div>
+        {% elif user_data.user_point >= 50 %}
+        <div class="col">
+          <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
+          <p id="congrats">Congrats, You are a Bronze Member</p>
+        </div>
+        {% else %}
+          <h5 style="text-align: center;">You need more Points</h5>
         {% endif %}
-      </div>
+
     </div>
     
     <!-- Show Event History -->
@@ -148,9 +156,9 @@
       {% for event in user_data.events_joined.all %}
       <div class="row">
         <div class="card">
-          <p>{{event.namaEvent}}</p>
-          <p>{{event.namaPantai}}</p>
-          <p>{{event.tanggalMulai}} - {{event.tanggalAkhir}}</p>
+          <div class="card-header">{{event.namaEvent}} @{{event.namaPantai}}</div>
+          <div class="card-body">{{event.alamatPantai}}</div>
+          <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
         </div>
       </div>
       {% endfor %}
