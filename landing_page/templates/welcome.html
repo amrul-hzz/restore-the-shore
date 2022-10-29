@@ -8,21 +8,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         .btn {
-            color: #FFFFFF;
+            color: black;
             background-color: #ced5f6
         }
-        .main {
+        .center {
             text-align:center; 
         }
-        .usernametitle {
-            color:#00008B;
-            font-size:20px;
-            font-weight:bold;
+        .rtsdesc {
+            background-color: lightgrey;
+            width: 400px;
+            border: 5px solid navy;
+            padding: 10px;
+            margin: 0px
         }
-        .tabletitle {
-            color:#DC143C;
-            font-size:20px;
-            font-weight:bold;
+        .box1 {
+            background-color: white;
+            width: 380px;
+            padding: 10px;
+            margin: 0px
+        }
+        .img {
+            width: 380px;
+            height: 380px;
+            margin: 10px;
         }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -34,27 +42,75 @@
             font-family: 'Times New Roman', Times, serif;
         }
 
+        .largetxt {
+            width: 200px;
+            height: 100px;
+            padding: 5px;
+        }
         .card:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
 
-        .container {
-            padding: 2px 16px;
+        .colthree {
+            column-count: 3;
+        }
+
+        .coltwo {
+            column-count: 2;
         }
     </style>
 </head>
 <body style="background-color:#ADD8E6">
     
-    <h1 style="color:midnightblue">Welcome to Restore the Shore!</h1>
+    <h1 style="color:midnightblue">Restore the Shore</h1>
     {% if request.user.is_authenticated %}
-        <div></div>
+        <div class="coltwo">
+        <div class="rtsdesc">Hello environmentalists! Beaches have always been an important element for the environment and sea life.
+            Restore the Shore is an interactive website where users can participate in events to clean beaches and post about them
+            in the website. Users can get points and earn badges for joining events!
+        </div>
+        <button type="button" class="btn">
+            <a>See events</a>
+        </button>
+        <img class="img" src="https://www.travelandleisure.com/thmb/z58cxJrR_0MJRq2cePrO9KUnF9g=/1200x1200/smart/filters:no_upscale()/saud-beach-luzon-philippines-WRLDBEACH0421-15e2c368e7ad4495be803bd60cafa379.jpg" alt="..." />
+        </div>
+        <h2>
+            Our Visions
+        </h2>
+        <div class="colthree">
+        <img class="img" src="https://assets2.cbsnewsstatic.com/hub/i/r/2011/06/29/441f00d4-a643-11e2-a3f0-029118418759/thumbnail/640x480/4a3ecbefafd3d851b6b4927bbcf5cd46/dirtybeach_istock_000015037586.jpg" alt="..."/>
+        <div class="box1">Hello environmentalists! Beaches have always been an important element for the environment and sea life.
+            Restore the Shore is an interactive website where users can participate in events to clean beaches and post about them
+            in the website. Users can get points and earn badges for joining events!
+        </div> 
+        <img class="img" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/beach-quotes-1559667853.jpg" alt="..." />
+        <div class="box1">Hello environmentalists! Beaches have always been an important element for the environment and sea life.
+            Restore the Shore is an interactive website where users can participate in events to clean beaches and post about them
+            in the website. Users can get points and earn badges for joining events!
+        </div> 
+        <img class="img" src="https://cdn.mos.cms.futurecdn.net/yCPyoZDQBBcXikqxkeW2jJ-1200-80.jpg" alt="..." />
+        <div class="box1">Hello environmentalists! Beaches have always been an important element for the environment and sea life.
+            Restore the Shore is an interactive website where users can participate in events to clean beaches and post about them
+            in the website. Users can get points and earn badges for joining events!
+        </div>
+        </div>
+        <div class="center">
+            <h2>Send a Feedback!</h2>
+            <form>
+                <input type="text" placeholder="Type here..." class="largetxt"><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     {% else %}
+        <div class="rtsdesc">Hello environmentalists! Beaches have always been an important element for the environment and sea life.
+            Restore the Shore is an interactive website where users can participate in events to clean beaches and post about them
+            in the website. Users can get points and earn badges for joining events!</div>
         <button type="button" class="btn">
             <a href="{% url 'landing_page:login_user' %}">Log In</a>
         </button>
 
         <button type="button" class="btn">
-            <a href="{% url 'landing_page:register' %}">Sign Up</a>
+            <a href="{% url 'landing_page:register' %}">Register</a>
         </button>
     {% endif %}
     
