@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from create_event.models import Event
 from django.shortcuts import redirect
-from my_account.models import UserAccount
+from landing_page.models import UserAccount
 from django.db.models import F
 from timeline.forms import sortForm
 # Create your views here.

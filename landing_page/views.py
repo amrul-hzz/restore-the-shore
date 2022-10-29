@@ -23,7 +23,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('landing_page:login')
+            return redirect('landing_page:login_user')
     
     context = {'form':form}
     return render(request, 'register.html', context)
