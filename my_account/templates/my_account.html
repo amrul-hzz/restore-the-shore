@@ -3,9 +3,6 @@
 
 {% block meta %}
 <title>My Account</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
   body {
     margin: 0;
@@ -62,28 +59,38 @@
 
 
 {% block content %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
     $.ajax({
-      url: "% url 'forum:show_forum_json' %}",
+      url: "{% url 'forum:show_forum_json_by_user' %}",
       dataType: 'json',
       success: function (data) {
         for (var i = 0; i < data.length; i++) {
-          if (data[i].fields.poster == user) {
-            var row = `
-                      <div class="post" id="post-${data.pk}">
-                        <div class="post-header">${data.fields.creator.username}</div>
-                          <div class="post-body">
-                            <img src=${data.fields.image} class="post-image"/>
-                            <p class="post-content">${data.fields.content}</p>
-                          </div>
-                        <div class="post-footer text-muted">Posted on ${data.fields.date}</div>
+          $("#my-posts").append(
+                    `
+                    <div class = "row" style="margin:5px;">
+                      <div class="card" id="post-${data[i].pk}" style="outline:black;">
+                        <div class="card-header">${data[i].fields.creator.name}</div>
+                        <div class="card-body">
+                          <img src="${data[i].fields.image}" class="post-image" style="max-width:100%;"/>
+                          <p class="card-content">${data[i].fields.content}</p>
+                          <button
+                            onClick="showComments(${data[i].pk})"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdropComments"
+                            style="color:blue;"
+                          >
+                          Show Comments >>>
+                          </button>
+                        </div>
+                        <div class="card-footer text-muted">Posted on ${data[i].fields.date}</div>
                       </div>
-                      `;
-            $('#myPost').append(row);
-          }
+                    </div>
+                    `
+          );
+        }
+        if (i == 0) {
+          $("#my-posts").append(`<h5> You haven't post anything </h5>`);
         }
       },
     });
@@ -94,12 +101,19 @@
   <header>
     <h1>Hi {{user.get_username}},</h1>
   </header>
+  <!-- My Posts -->
   <article id="article">
     <h3>My Posts</h3>
-    <div id="myPost" class="col">
+    <div 
+        class="my-posts column h-100 d-flex align-items-center justify-content-center" 
+        id="my-posts"
+        style="flex-direction:column-reverse;"
+    >
+    </div>
       
   </article>
   <aside id="aside">
+    <!-- Show Badges -->
     <h3>Badge</h3>
     <h5>Point : {{user_data.user_point}}</h5>
     <div class="container">
@@ -126,7 +140,8 @@
         {% endif %}
       </div>
     </div>
-      
+    
+    <!-- Show Event History -->
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
     <div id="myEvent" class="col">
