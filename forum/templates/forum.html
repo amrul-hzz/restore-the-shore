@@ -14,9 +14,9 @@
                 $("#forum-posts").append(
                     `
                         <div class="post" id="post-${data.pk}">
-                            <div class="post-header">${data.fields.creator.username}</div>
+                            <div class="post-header">${data.fields.creator.name}</div>
                                 <div class="post-body">
-                                    <img src=${data.fields.image} class="post-image"/>
+                                    <img src="${data.fields.image}" class="post-image"/>
                                     <p class="post-content">${data.fields.content}</p>
                                 </div>
                             <div class="post-footer text-muted">Posted on ${data.fields.date}</div>
@@ -25,10 +25,10 @@
                 );
             } 
             
-            $("#new-form-post").submit(function(e){
+            $("#new-post-form").submit(function(e){
                 e.preventDefault();
 
-                $.post( window.location.href + "add_post/", {
+                $.post("/forum/add-post/", {
                     content: $("#content").val(),
                     image: $("#image").val()
                 }).done(function(data){
@@ -59,7 +59,7 @@
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
     >
-        +
+    +
     </button>
 
     <!-- Create New Post Modal -->
