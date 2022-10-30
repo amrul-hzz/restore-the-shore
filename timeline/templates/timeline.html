@@ -1,3 +1,4 @@
+
 <style>
     body {
       background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');
@@ -47,16 +48,10 @@
 </head>
 
 <body>
+  {% block content %}
   <h1>TIMELINE</h1>
   {% if request.user.is_authenticated %}
-  <div class="header-bottom-set dropdown">
-    <button class="dropdown-toggle neader-action-btn" data-bs-toggle="dropdown">Default <i class="fafa-angle-down"></i></button>
-    <ul class="dropdown-menu dropdown-menu-right">
-      <li><a class="dropdown-item" href="#">Nama Event</l1>
-      <li><a class="dropdown-item" href="#">Lokasi</li>
-      <li><a class="dropdown-item" href="#">Tanggal</li>
-    </ul>
-  </div>
+  
 
 <div class="container">
     <br>
@@ -65,40 +60,18 @@
     <div class ="row ">
         
         <div class ="col-12 col-md-6 col-lg-4 " id="data_list">
-          <!-- {% for data in datalist %}
-            <div class ="card ratio-4x3">
-                <div class="card-header overflow-hidden p-0">
-                {% if data.fotoPantai %}
-                <img class="w-40 h-30 card-img-top" src="{{data.fotoPantai}}" >
-
-                {% endif %}
-                </div>
-                
-                <div class="card-body">
-                
-
-                <h5 class="card-title">Event: {{data.namaEvent}}</h5>
-                <h5 class="card-title">Pantai: {{data.namaPantai}}</h5>
-                <h5 class="card-title">Lokasi: {{data.alamatPantai}}</h5>
-                <h5 class="card-title">Partisipan: {{data.jumlahPartisipan}}</h5>
-                <h5 class="card-title">Deskripsi: {{data.deskripsi}}</h5>
-                <h5 class="card-title">Tanggal Mulai: {{data.tanggalMulai}}</h5>
-                <h5 class="card-title">Tanggal Akhir: {{data.tanggalAkhir}}</h5>
-
-              
-                
-                </div>
-            </div>
-          {% endfor %} -->
         </div>
 
         <br>
 
         
     </div>
+  {% else %}
+
+  <p> halo </p>
   {% endif %}
   
- 
+  {% endblock content %}
 </body>
 
 <script>
@@ -120,17 +93,7 @@
   //       }
 
 
-  $('#join-${id}').click(function () {
-    var namaEvent = document.getElementById("#{$id}-namaEvent")
-                $.post(
-                    '/timeline/join-event/' + namaEvent + '/',
-                    {
-                        nama : fields.namaEvent
-
-                    },
-                  
-                )
-            })
+ 
 
   const card = (data) => `
     
@@ -145,16 +108,14 @@
           <div class="card-body">
           
 
-          <h5 class="card-title" id= "${data.pk}-namaEvent">Event: ${data.fields.namaEvent}</h5>
+
           <h5 class="card-title" id= "${data.pk}-namaPantai">Pantai: ${data.fields.namaPantai}</h5>
           <h5 class="card-title" id= "${data.pk}-alamatPantai">Lokasi: ${data.fields.alamatPantai}</h5>
-          <h5 class="card-title" id= "${data.pk}-jumlahPartisipan">Partisipan: ${data.fields.jumlahPartisipan}</h5>
-          <h5 class="card-title" id= "${data.pk}-deskripsi">Deskripsi: ${data.fields.deskripsi}</h5>
           <h5 class="card-title" id= "${data.pk}-tanggalMulai">Tanggal Mulai: ${data.fields.tanggalMulai}</h5>
           <h5 class="card-title" id= "${data.pk}-tanggalAkhir">Tanggal Akhir: ${data.fields.tanggalAkhir}</h5>
 
           
-          <button id=join-${data.pk}>Join</button>
+          <a href="event_detail/${data.pk}", class="btn btn-primary">Read More</a>
           
           </div>
       </div>

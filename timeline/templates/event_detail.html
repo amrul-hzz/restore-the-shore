@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!doctype html>
+
+<html lang="en">
+    
+    {% include 'navbar.html' %}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        {% block meta %}
+        <title>Timeline</title>
+        {% endblock meta %}
+    </head>
+
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        {% block content %}
+
+        <style>
+            .card-img-top {
+            width: 100%;
+            height: 40vw;
+            object-fit: cover;
+            object-position: center;
+          }
+          .card{
+        
+            border-radius: 15px;
+            background: rgb(255, 255, 255);
+            box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+            transition: .3s ;
+            
+            cursor: pointer;
+            margin-left: 10px;
+            margin-right: 50px;
+          }
+        
+          
+
+          .card-title{
+              font-size: 200%;
+          }
+        
+          .blmada{
+            font-style: italic;
+            text-align: center;
+          }
+        
+        </style>
+
+        <button>
+            <a href="./ ">Back</a>
+        </button>
+        <br>
+
+        <div class="container">
+        <div class="row row-cols-1 row-cols-md-1 g-4 mx-5">
+            <div class ="card ratio-4x3" id="{{data.pk}}-card">
+                <div class="card-header overflow-hidden p-0">
+        
+                <img class="w-40 h-30 card-img-top" src={{data.fotoPantai}} id="${data.pk}-foto">
+      
+              
+                </div>
+                
+                <div class="card-body">
+                
+      
+                <h5 class="card-title" id= "{{data.pk}}-namaEvent">Event: {{data.namaEvent}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-namaPantai">Pantai: {{data.namaPantai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-alamatPantai">Lokasi: {{data.alamatPantai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-jumlahPartisipan">Partisipan: {{data.jumlahPartisipan}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-deskripsi">Deskripsi: {{data.deskripsi}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-tanggalMulai">Tanggal Mulai: {{data.tanggalMulai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-tanggalAkhir">Tanggal Akhir: {{data.fields.tanggalAkhir}}</h5>
+      
+                
+                <button id=join-{{data.pk}}>Join</button>
+                
+                </div>
+            </div>
+        </div>
+        </div>
+        <br>
+
+        {% endblock content %}
+    </body>
+
+    {% include 'footer.html' %}
+
+</html>
+
+{% block script &}
+<script>
+    $(document).ready(function(){
+        console.log( $(`#join-${data.pk}`).length);
+        console.log("halo");
+       
+        $(`#join-${data.pk}`).click(function () {
+                $.post(
+                    `/timeline/join_event/`,
+                    {
+                        namaEvent : $(`${data.pk}-namaEvent`).val(),
+                        namaPantai: $(`${data.pk}-namaPantai`).val(),
+                        alamatPantai: $(`${data.pk}-alamatPantai`).val(),
+                        jumlahPartisipan: $(`${data.pk}-jumlahPartisipan`).val(),
+                        fotoPantai: $(`${data.pk}-fotoPantai`).val(),
+                        deskripsi: $(`${data.pk}-deskripsi`).val(),
+                        tanggalMulai: $(`${data.pk}-tanggalMulai`).val(),
+                        tanggalAkhir: $(`${data.pk}-tanggalAkhir`).val(),
+
+                    },
+                    function (data,status){
+                        if(status ='success'){
+                            console.log('')
+                        }
+                    }
+                )
+            })
+    }) 
+    
+</script>
+{% endblock script}

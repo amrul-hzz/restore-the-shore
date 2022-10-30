@@ -1,11 +1,7 @@
-from django import forms
+from django.forms import ModelForm
+from timeline.models import JoinEvent
 
-SORT = [
-    ('tanggal', 'Tanggal'),
-    ('lokasi', 'Lokasi'),
-    ('event', 'Event')
-
-]
-
-class sortForm(forms.Form):
-    sort_choice = forms.Select(choices=SORT)
+class JoinEventForm(ModelForm):
+    class Meta:
+        model = JoinEvent
+        fields = ['namaEvent', 'namaPantai', 'alamatPantai', 'jumlahPartisipan', 'fotoPantai', 'deskripsi', 'tanggalMulai', 'tanggalAkhir']
