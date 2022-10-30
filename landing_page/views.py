@@ -17,6 +17,9 @@ def welcome(request):
     #    'this_user' : UserAccount.objects.filter(user = request.user)
     #    'last_login': request.COOKIES['last_login'],
     #}
+    if request.user.is_authenticated:
+        if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+            UserAccount.objects.create(user = request.user, user_point = 0)
     return render(request, "welcome.html")
 
 #ini bener gasih buat nyimpen ke database?
@@ -28,7 +31,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('landing_page:login')
+            return redirect('landing_page:login_user')
     
     context = {'form':form}
     return render(request, 'register.html', context)

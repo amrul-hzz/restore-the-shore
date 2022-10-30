@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from my_account.models import UserAccount
+from landing_page.models import UserAccount
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.core.paginator import Paginator
