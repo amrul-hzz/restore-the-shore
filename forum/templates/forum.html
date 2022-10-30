@@ -20,22 +20,109 @@
                                         <img src="${data.fields.image}" class="post-image"/>
                                         <p class="card-content">${data.fields.content}</p>
                                         <button
+                                            class="btn btn-primary"
                                             onClick="showComments(${data.pk})"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdropComments"
-                                            style="color:blue;"
+                                            data-bs-target="#staticBackdropComments-${data.pk}"
                                         >
-                                        Show Comments >>>
+                                        Show Comments
                                         </button>
                                     </div>
                                 <div class="card-footer text-muted">Posted on ${data.fields.date}</div>
                             </div>
                         </div>
 
+                        <!-- Show Comments Modal-->
+                        <div
+                            class="modal fade"
+                            id="staticBackdropComments-${data.pk}"
+                            data-bs-backdrop="static"
+                            data-bs-keyboard="false"
+                            tabindex="-1"
+                            aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div 
+                                        id="comments-on-post-${data.pk}"
+                                        style="flex-direction:column-reverse;">
+                                    </div>
+                                </div>
+
+                                <div class="modal-body"> 
+                                    <form id="new-comment-form-${data.pk}" method="POST">
+                                        {% csrf_token %}
+
+                                        <div id="comment-group" class="form-group">
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                id="comment-content-${data.pk}"
+                                                name="comment-content" 
+                                                placeholder="Write your comment here"
+                                            />
+                                        </div>
+
+                                        <input onClick="submitComment(${data.pk})" type="submit" class="btn btn-primary" value="Post Comment" />
+                                    </form>
+                                </div>
+                                </button>
+                            </div>
+                            </div>
+                        </div>
                     `
                 );
             } 
+
+            function appendComment(data, id){
+                $("comments-on-post-" + id).append(
+                    `
+                        <div id="post-${id}-comment-${data.pk}">
+                            <p>
+                                <b>${data.fields.creator.username}</b> ${data.fields.content}
+                            </p>
+                        </div>
+                    `
+                )
+            }
+
+            function showComments(id){
+                document.getElementById("comments-on-post-" + id).innerHTML=""
+
+                $.get("/forum/json-comments/" + id +"/").done(function(data){
+                    for(i = 0; i < data.length; i++){
+                        appendComment(data[i], id);
+                    }
+                });
+            }
+
+            function submitComment(id){
+                $("#new-comment-form-" + id).submit(function(e){
+                    e.preventDefault();
+
+                    $.post("/forum/add-comment/" + id + "/", {
+                        content: $("#comment-content-" + id).val()
+                    }).done(function(data){
+                        appendComment(data, id);
+
+                        const comment = document.getElementById("comments-on-post-" + id);
+                        comment.insertAdjacentHTML("beforestart", $("#post-" + id + "-comment-" + data.pk));
+                    });
+                });
+            }
             
+
             $("#new-post-form").submit(function(e){
                 e.preventDefault();
 
@@ -52,16 +139,6 @@
                 $("#staticBackdrop").modal("hide");
             });
 
-            function commandModalClear(){
-                // TODO
-            }
-            function showComments(id){
-                commentModalClear();
-
-                // TODO: get all comment items
-
-                // TODO: append comment items
-            }
 
         });
         
@@ -175,56 +252,6 @@
                     <input type="submit" class="btn btn-primary" value="Submit" />
                 </form>
             </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Show Comments Modal-->
-    <div
-        class="modal fade"
-        id="staticBackdropComments"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-            </div>
-
-            <div class="modal-body">
-                <div 
-                    id="post-comments"
-                    style="flex-direction:column-reverse;">
-                </div>
-            </div>
-
-            <div class="modal-body"> 
-                <form id="new-comment-form" method="POST">
-                    {% csrf_token %}
-
-                    <div id="comment-group" class="form-group">
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="comment-content"
-                            name="comment-content" 
-                            placeholder="Write your comment here"
-                        />
-                    </div>
-
-                    <input type="submit" class="btn btn-primary" value="Post Comment" />
-                </form>
-            </div>
-            </button>
         </div>
         </div>
     </div>

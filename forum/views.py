@@ -19,14 +19,23 @@ def show_forum(request):
     }
     return render(request, "forum.html", context)
 
+@login_required(login_url="/landing_page/login_user/")
+@csrf_exempt
 def show_forum_json(request):
     posts_data = Post.objects.all()
     return HttpResponse(serializers.serialize("json", posts_data), content_type="application/json")
 
+@login_required(login_url="/landing_page/login_user/")
+@csrf_exempt
 def show_forum_json_by_user(request):
     posts_data= Post.objects.filter(creator=request.user)
     return HttpResponse(serializers.serialize("json", posts_data), content_type="application/json")
 
+@login_required(login_url="/landing_page/login_user/")
+@csrf_exempt
+def show_comments_json(request, id):
+    comments_data = Comment.objects.filter(original_post=id)
+    return HttpResponse(serializers.serialize("json", comments_data), content_type="application/json")
 
 @login_required(login_url="/landing_page/login_user/")
 @csrf_exempt
