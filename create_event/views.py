@@ -57,41 +57,6 @@ def show_more_info(request, id):
     }
     return render(request, "show_info.html", context)
 
-
 def show_json(request):
     data_event = Event.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
-
-def register(request):
-    form = UserCreationForm()
-
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('create_event:login_user')
-    
-    context = {'form':form}
-    return render(request, 'register.html', context)
-
-def login_user(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user) # melakukan login terlebih dahulu
-            response = HttpResponseRedirect(reverse("create_event:show_create_event")) # membuat response
-            response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return response
-        else:
-            messages.info(request, 'Username atau Password salah!')
-    context = {}
-    return render(request, 'login.html', context)
-
-def logout_user(request):
-    logout(request)
-    response = HttpResponseRedirect(reverse('create_event:login_user'))
-    response.delete_cookie('last_login')
-    return response
