@@ -46,7 +46,6 @@ def add_post(request):
             form = form.save(commit = False)
             form.creator = request.user
             form.creator_name = request.user.username
-            print("ini nih: " + form.creator_name)
             form.date = datetime.datetime.now()
             form.save()
 
