@@ -49,14 +49,24 @@
   }
 
   .myBadge {
-    width: 24vh;
-    height: 24vh;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5px;
   }
 
   #congrats {
     font-size: medium;
-    font-weight: bold;
     margin-top: 2%;
+    text-align: center;
+  }
+
+  #member-class {
+    font-weight: bold;
+    font-size: large;
+  }
+
+  #point {
+    font-size: large;
   }
 
 </style>
@@ -79,14 +89,6 @@
                         <div class="card-body">
                           <img src="${data[i].fields.image}" class="post-image" style="max-width:100%;"/>
                           <p class="card-content">${data[i].fields.content}</p>
-                          <button
-                            onClick="showComments(${data[i].pk})"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdropComments"
-                            style="color:blue;"
-                          >
-                          Show Comments >>>
-                          </button>
                         </div>
                         <div class="card-footer text-muted">Posted on ${data[i].fields.date}</div>
                       </div>
@@ -95,7 +97,10 @@
           );
         }
         if (i == 0) {
-          $("#my-posts").append(`<h5> You haven't post anything </h5>`);
+          $("#my-posts").append(`
+          <a href="{% url 'forum:show_forum' %}">Post Something</a>
+          <h5 class="text-muted"> You haven't post anything </h5>
+          `);
         }
       },
     });
@@ -121,30 +126,30 @@
   <aside id="aside">
     <!-- Show Badges -->
     <h3>Badge</h3>
-    <h5>Point : {{user_data.user_point}}</h5>
+    <p id="point">Point : {{user_data.user_point}}</p>
     <div class="container">
         {% if user_data.user_point >= 200 %}
-        <div class="col" style="align-items: center;">
+        <div class="col">
           <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
-          <p id="congrats">Congrats, You are a Platinum Member</p>
+          <p id="congrats">Congrats, You are a <span id="member-class">Platinum</span> Member</p>
         </div>
         {% elif user_data.user_point >= 150 %}
         <div class="col">
           <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
-          <p id="congrats">Congrats, You are a Gold Member</p>
+          <p id="congrats">Congrats, You are a <span id="member-class">Gold</span> Member</p>
         </div>
         {% elif user_data.user_point >= 100 %}
         <div class="col">
           <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
-          <p id="congrats">Congrats, You are a Silver Member</p>
+          <p id="congrats">Congrats, You are a <span id="member-class">Silver</span> Member</p>
         </div>
         {% elif user_data.user_point >= 50 %}
         <div class="col">
           <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
-          <p id="congrats">Congrats, You are a Bronze Member</p>
+          <p id="congrats">Congrats, You are a <span id="member-class">Bronze</span> Member</p>
         </div>
         {% else %}
-          <h5 style="text-align: center;">You need more Points</h5>
+          <h5 class="text-muted" style="text-align: center;">You need more Points</h5>
         {% endif %}
 
     </div>
@@ -152,11 +157,19 @@
     <!-- Show Event History -->
     <hr style="border-top: 2px dashed;">
     <h5>Event History</h5>
+    {% if user_data.events_joined.all.count == 0 %}
+      <p class="text-muted" style="text-align: center;">You haven't joined any event</p>
+      <div class="d-grid gap-1 col-4 mx-auto">
+        <a type="button" class="btn btn-primary mx-auto" href="{% url 'timeline:show_data' %}">Find Events</a>
+      </div>
+    {% else %}
+      <p>You have joined {{user_data.events_joined.all.count}} event(s)</p>
+    {% endif %}
     <div id="myEvent" class="col">
       {% for event in user_data.events_joined.all %}
       <div class="row">
         <div class="card">
-          <div class="card-header">{{event.namaEvent}} @{{event.namaPantai}}</div>
+          <div class="card-header" style="font-weight: bold;">{{event.namaEvent}} @{{event.namaPantai}}</div>
           <div class="card-body">{{event.alamatPantai}}</div>
           <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
         </div>

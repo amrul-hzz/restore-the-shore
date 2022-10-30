@@ -8,7 +8,6 @@ from landing_page.models import UserAccount
 @login_required(login_url='landing_page:login_user')
 def show_account(request):  
     data_user = UserAccount.objects.get(user = request.user)
-    data_user.user_point = 150
     context = {
         'user_data' : data_user,
     }
