@@ -34,8 +34,8 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <div class="flex flex-row justify-center gap-2 pb-3">
-                    <a class="cursor-pointer px-5 py-1 font-semibold bg-indigo-500 text-white mt-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" href="/create-event/show-info/${data.pk}">Lihat Info</a>
-                    <a id="${data.pk}-delete" class="cursor-pointer px-5 py-1 font-semibold border-2 mt-4 rounded-lg hover:bg-green-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">Hapus</a>
+                    <a class="cursor-pointer px-5 py-1 font-semibold bg-indigo-500 text-white mt-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" href="/create-event/show-info/${data.pk}">More Info</a>
+                    <a id="${data.pk}-delete" class="cursor-pointer px-5 py-1 font-semibold border-2 mt-4 rounded-lg hover:bg-green-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">Delete</a>
                 </div>
             </div>
             `
@@ -64,7 +64,7 @@ $(document).ready(function(){
             tanggalMulai: $("#tanggalMulai").val(),
             tanggalAkhir: $("#tanggalAkhir").val(),
         }).done(function (data) {
-            alert("Event telah berhasil dibuat");
+            alert("The event has been successfully created");
             getCard(data);
             deleteCard(data);
             $("#namaEvent").val(""), 
