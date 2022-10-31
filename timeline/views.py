@@ -10,6 +10,8 @@ from timeline.forms import JoinEventForm
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
 
@@ -28,9 +30,9 @@ def show_data(request):
     return render(request, "timeline.html", response)
 
 
-
+@csrf_exempt
 def join_event(request):
-    
+    form = JoinEventForm()
     if request.method == "POST":
         form = JoinEventForm(request.POST)
         if form.is_valid():
