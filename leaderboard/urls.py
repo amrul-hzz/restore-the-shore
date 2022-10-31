@@ -10,5 +10,6 @@ urlpatterns = [
     path('', show_leaderboard, name='show_leaderboard'),
     path('json/', show_json, name='show_json'),
     path('search/<str:searchusername>/', search, name='search'),
-    path('add-quote/<str:quote>/', add_quote, name='add_quote'),
+    path('add-quote/', add_quote, name='add_quote'),
+    # path('getuser/<int:id>/', get_user, name='get_user'),
 ]

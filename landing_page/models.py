@@ -9,6 +9,7 @@ class UserAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_point = models.IntegerField(default = 0)
     events_joined = models.ManyToManyField(Event)
+    username = models.CharField(max_length=63)
 
     # post di forum yang author nya user ini bisa langsung cek dari database forum aja
 

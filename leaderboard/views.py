@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from landing_page.models import UserAccount
 from django.http import HttpResponse, JsonResponse
@@ -39,24 +40,28 @@ def search(request, searchusername):
         users = UserAccount.objects.filter(user__username__icontains=searchusername) # cari berdasarkan pola
         return HttpResponse(serializers.serialize("json", users), content_type="application/json")
 
-
-def add_quote(request, quote):
+@csrf_exempt
+def add_quote(request):
     form = AccountForm()
     if request.method == "POST":
         form = AccountForm(request.POST)
         if form.is_valid():
             form = form.save(commit = False) # not yet saved to db
-            form.user = request.user
+            user_acc = UserAccount.objects.get(user=request.user)
+            form.users = user_acc
             form.save() # saved to db, by default your own made models
+            return HttpResponse("OK")
+
     elif request.method == "GET":
         data_quote = list(LeaderBoard.objects.all())
         random_quote = random.choice(data_quote)
 
         context = {
-            'random_quote': random_quote,
-            'name': form.user.username
+            'random_quote': random_quote.quote,
+            'name': random_quote.users.username
         }
-        return context
+
+        return HttpResponse(json.dumps(context), content_type="application/json")
             # return JsonResponse({
             #     "pk": form.pk,
             #     "fields": {
@@ -71,3 +76,9 @@ def show_json(request):
     if request.method == "GET":
         data_leaderboard = UserAccount.objects.all().order_by('-user_point', '-user__date_joined') # Tambahkan berdasarkan jumlah join_event dari UserAccount
         return HttpResponse(serializers.serialize("json", data_leaderboard), content_type="application/json")
+
+# def get_user(request, id):
+#     if request.method == "GET":
+#         data_user = UserAccount.objects.filter(pk=id).values()
+#         data_user["username"] = data_user["user"][]
+#         return HttpResponse(serializers.serialize("json", data_user), content_type="application/json")

@@ -8,6 +8,10 @@ $(document).ready(function(e){
             $("#container").empty();
             
             for (let i = 0; i < response.length; i++) {
+                // $.get("/leaderboard/getuser/" + (i+1) + "/", function(data_user) {
+                //     console.log(data_user)
+                //     addUserToLeaderboard($('#container'), response["fields"], data_user["fields"], response[i]["pk"]);
+                // });
                 addUserToLeaderboard($('#container'), response[i]["fields"], response[i]["pk"]);
             }
         },
@@ -27,19 +31,43 @@ $("#search-user-btn").click(function(e) {
     $('#container').empty(); // emptying container
 
 
-    $.post("/leaderboard/search/" + searchUsername + "/", {}).done( (e) => {
-        $.get("/leaderboard/search/" + searchUsername + "/", function(data) { // Get data from models via func in views
-            for (i = 0; i < data.length; i++) {
-                addUserToLeaderboard($('#container'), data[i]["fields"], data[i]["pk"]);
-            }
-        });
+    
+    $.get("/leaderboard/search/" + searchUsername + "/", function(data) { // Get data from models via func in views
+        for (i = 0; i < data.length; i++) {
+            // $.get("/leaderboard/getuser/" + (i+1) + "/", function(data_user) {
+            //     addUserToLeaderboard($('#container'), data["fields"], data_user["fields"], data[i]["pk"]);
+            // });
+            addUserToLeaderboard($('#container'), data[i]["fields"], data[i]["pk"]);
+        }
     });
+   
 });
 
-function addUserToLeaderboard($element, fields, user_id) { // Fields based on UserAccount
-    const name = fields["user"]["username"];
+// function addUserToLeaderboard($element, useraccount_fields, user_fields, user_id) { // Fields based on UserAccount
+//     const name = user_fields["username"];
 
-    console.log(fields["user"]);
+//     console.log(user_fields["user"]);
+
+//     const points = useraccount_fields["user_point"];
+  
+//     var html = 
+//     `<div class="col-md-12 infinite-item" id="user-${user_id}">
+//         <div class="card mb-4 box-shadow">
+//             <div class= "card-body">
+//                 <h2 style="font-size:18px;font-weight:bold;min-height:42px;">
+//                     ${name}</h2>
+//                 <div class="d-flex justify-content-between align-items-center">
+//                     <small class="text-muted">${points} points</small>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>`
+  
+//     $($element).append(html);
+//   }
+
+function addUserToLeaderboard($element, fields, user_id) { // Fields based on UserAccount
+    const name = fields["username"];
 
     const points = fields["user_point"];
   
@@ -59,7 +87,6 @@ function addUserToLeaderboard($element, fields, user_id) { // Fields based on Us
     $($element).append(html);
   }
 
-
 $('#quote-user-btn').click(function(e) {
     e.preventDefault();
 
@@ -67,19 +94,19 @@ $('#quote-user-btn').click(function(e) {
 
     $('#quotebox').val(""); // emptying the searchbox
 
+    $('#quote').empty(); // emptying quote container
+    $.get("/leaderboard/add-quote/", function(data) { // Get data from models via func in views
+        addQuote($('#quote'), data);
+    });
     if (quoteMsg) {
-        $.post("/leaderboard/add-quote/" + quoteMsg + "/", {}).done( (e) => {
-            $('#quote').empty(); // emptying quote container
-
-            $.get("/leaderboard/add-quote/" + quoteMsg + "/", function(data) { // Get data from models via func in views
-                addQuote($('#quote', data));
-            });
+        $.post("/leaderboard/add-quote/", {
+            "quote": quoteMsg
         });
     }
 })
 
 function addQuote($element, data) {
-    const quote = data["random-quote"];
+    const quote = data["random_quote"];
     const name = data["name"];
     var html = `<p class="lead">${quote} by ${name}</p>`;
 
