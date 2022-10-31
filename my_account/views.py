@@ -11,6 +11,7 @@ def show_account(request):
     data_user = UserAccount.objects.get(user = request.user)
     for event in JoinEvent.objects.filter(user = request.user):
         data_user.events_joined.add(event)
+        data_user.user_point += 10
     context = {
         'user_data' : data_user,
     }

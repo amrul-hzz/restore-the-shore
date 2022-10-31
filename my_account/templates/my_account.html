@@ -19,7 +19,7 @@
   aside,
   header,
   nav {
-    background: rgba(255, 255, 255, 0.938);
+    background: rgb(255, 255, 255);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
@@ -52,6 +52,10 @@
     width: 100%;
     height: 100%;
     margin-bottom: 5px;
+  }
+
+  .btn-primary {
+    background-color: #6366F1;
   }
 
   #congrats {
@@ -98,7 +102,7 @@
         }
         if (i == 0) {
           $("#my-posts").append(`
-          <a href="{% url 'forum:show_forum' %}">Post Something</a>
+          <a type="button" class="btn btn-primary mx-auto" href="{% url 'forum:show_forum' %}">Post Something</a>
           <h5 class="text-muted"> You haven't post anything </h5>
           `);
         }
@@ -169,8 +173,10 @@
       {% for event in user_data.events_joined.all %}
       <div class="row">
         <div class="card">
-          <div class="card-header" style="font-weight: bold;">{{event.namaEvent}} @{{event.namaPantai}}</div>
-          <div class="card-body">{{event.alamatPantai}}</div>
+          <div class="card-body" style="font-weight: bold;">
+            <p>{{event.namaEvent}} @{{event.namaPantai}}</p>
+            <a class="btn btn-primary" href="/create-event/show-info/{{event.pk}}">Lihat Info</a>
+          </div>
           <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
         </div>
       </div>
