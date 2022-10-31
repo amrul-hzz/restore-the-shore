@@ -15,27 +15,18 @@
                     `
                         <div class="row" style="margin:5px;">
                             <div class="card" id="post-${data.pk}" style="outline:black;">
-                                <div class="card-header">${data.fields.creator.username}</div>
+                                <div class="card-header"><b>${data.fields.creator_name}</b></div>
                                     <div class="card-body">
                                         <img src="${data.fields.image}" class="post-image"/>
                                         <p class="card-content">${data.fields.content}</p>
-                                        <button
-                                            onClick="showComments(${data.pk})"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdropComments"
-                                            style="color:blue;"
-                                        >
-                                        Show Comments >>>
-                                        </button>
                                     </div>
                                 <div class="card-footer text-muted">Posted on ${data.fields.date}</div>
                             </div>
                         </div>
-
                     `
                 );
             } 
-            
+
             $("#new-post-form").submit(function(e){
                 e.preventDefault();
 
@@ -52,16 +43,6 @@
                 $("#staticBackdrop").modal("hide");
             });
 
-            function commandModalClear(){
-                // TODO
-            }
-            function showComments(id){
-                commentModalClear();
-
-                // TODO: get all comment items
-
-                // TODO: append comment items
-            }
 
         });
         
@@ -141,7 +122,7 @@
  
                         <div>
                             <br>
-                            <img id="output"/>
+                            <img id="output" style="max-width: 100%; height: auto;"/>
                         </div>
                         <script>
                             var loadFile = function(event) {
@@ -175,56 +156,6 @@
                     <input type="submit" class="btn btn-primary" value="Submit" />
                 </form>
             </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Show Comments Modal-->
-    <div
-        class="modal fade"
-        id="staticBackdropComments"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-            </div>
-
-            <div class="modal-body">
-                <div 
-                    id="post-comments"
-                    style="flex-direction:column-reverse;">
-                </div>
-            </div>
-
-            <div class="modal-body"> 
-                <form id="new-comment-form" method="POST">
-                    {% csrf_token %}
-
-                    <div id="comment-group" class="form-group">
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="comment-content"
-                            name="comment-content" 
-                            placeholder="Write your comment here"
-                        />
-                    </div>
-
-                    <input type="submit" class="btn btn-primary" value="Post Comment" />
-                </form>
-            </div>
-            </button>
         </div>
         </div>
     </div>
