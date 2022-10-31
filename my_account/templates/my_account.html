@@ -26,6 +26,11 @@
     color: rgb(0, 0, 0);
   }
 
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   article,
   aside {
     float: left;
@@ -73,6 +78,10 @@
     font-size: large;
   }
 
+  #change-pass {
+    margin-top: 1vh;
+  }
+
 </style>
 {% endblock meta %}
 
@@ -113,7 +122,12 @@
 
 <div id="wrapper">
   <header>
-    <h1>Hi {{user.get_username}},</h1>
+    <div>
+      <h1>Hi {{user.get_username}},</h1>
+    </div>
+    <div>
+      <a type="button" class="btn btn-primary mx-auto" id="change-pass" href="{% url 'my_account:change_password' %}">Change Password</a>
+    </div>
   </header>
   <!-- My Posts -->
   <article id="article">
