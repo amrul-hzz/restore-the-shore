@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from landing_page.models import UserAccount
+#from landing_page.models import UserAccount
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def welcome(request):
-    if request.user.is_authenticated:
-        if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
-            UserAccount.objects.create(user = request.user, user_point = 0)
+    #if request.user.is_authenticated:
+    #    if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+    #        UserAccount.objects.create(user = request.user, user_point = 0)
     #context = {
     #    'this_user' : UserAccount.objects.filter(user = request.user)
     #    'last_login': request.COOKIES['last_login'],
