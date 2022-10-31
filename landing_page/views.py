@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-#from landing_page.models import UserAccount
+from landing_page.models import UserAccount
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -10,11 +10,19 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def welcome(request):
-    context = {
-        'last_login': request.COOKIES['last_login']
-    }
-    return render(request, "welcome.html", context)
+    #if request.user.is_authenticated:
+    #    if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+    #        UserAccount.objects.create(user = request.user, user_point = 0)
+    #context = {
+    #    'this_user' : UserAccount.objects.filter(user = request.user)
+    #    'last_login': request.COOKIES['last_login'],
+    #}
+    if request.user.is_authenticated:
+        if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+            UserAccount.objects.create(user = request.user, user_point = 0)
+    return render(request, "welcome.html")
 
+#ini bener gasih buat nyimpen ke database?
 def register(request):
     form = UserCreationForm()
 
@@ -23,7 +31,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('landing_page:login')
+            return redirect('landing_page:login_user')
     
     context = {'form':form}
     return render(request, 'register.html', context)
@@ -34,10 +42,10 @@ def login_user(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(reverse("landing_page:welcome"))
-            response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return response
+            login(request, user) # melakukan login terlebih dahulu
+            #response = HttpResponseRedirect(reverse("landing_page:welcome")) # membuat response
+            #response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
+            return redirect('landing_page:welcome')
         else:
             messages.info(request, 'Username atau Password salah!')
     context = {}
@@ -45,6 +53,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('landing_page:login_user'))
-    response.delete_cookie('last_login')
-    return response
+    #response = HttpResponseRedirect(reverse('landing_page:login_user'))
+    #response.delete_cookie('last_login')
+    return redirect('landing_page:welcome')

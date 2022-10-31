@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
- 
+{% load static %}
+
 {% block meta %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -14,34 +15,48 @@
   <div class="container" style="max-width:700px">
     <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Leaderboard</h1>
-        <p class="lead">Top pengguna terbaik Restore the Shore</p>
+        <p class="lead">Top users Restore the Shore</p>
     </div>
-    <div class="py-5">
-        <div class="row infinite-container">
-            {% for account in data_leaderboard %}
-            <div class="col-md-12 infinite-item">
-                <img class="img-fluid" src="https://picsum.photos/700">
-                <!-- isi detail akun ketika di-klik oleh pengguna -->
-                <!-- <a class="text-dark" href="{% url 'books:book-detail' slug=book.slug %}"> -->
-                    <div class="card mb-4 box-shadow">
-                        <div class= "card-body">
-                            <h2 style="font-size:18px;font-weight:bold;min-height:42px;">
-                                {{account.user.username}}</h2>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">{{account.user_point}}</small>
-                                <!-- Implementasi jumlah aktivitas yang diikuti oleh akun tertentu -->
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
+
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" id="quote">
+    </div>
+
+    <!-- <div class="input-group">
+        <form method="POST" id="search">
+            {% csrf_token %}
+            <input id="search-input" type="search" id="form1" class="form-control">
+            <label class="form-label" for="form1">Search</label>
+        </form>>
+        <button id="search-button" type="button" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </div> -->
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search for user..." aria-label="Search for user" aria-describedby="basic-addon2" id="searchbox">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="search-user-btn">Search</button>
         </div>
-        <div class="d-flex d-none position-fixed" style="top:35vh;left:46vw">
-            <button class="btn btn-primary loading">
-                <span class="spinner-border spinner-border-sm"></span>
-                Memuat leaderboard...
-            </button>
+    </div>
+
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <p class="lead">Congratulate and motivate your friends!</p>
+    </div>
+    <div class="input-group mb-3">
+        <form method="POST" id="quote-form">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="Write your message..." aria-label="Write your message" aria-describedby="basic-addon2" id="quotebox">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="quote-user-btn">Send</button>
+            </div>
+        </form>
+    </div>
+
+    
+
+    <div class="py-5">
+
+        <div class="row infinite-container" id="container">
         </div>
 
         <div class="row">
@@ -56,13 +71,13 @@
     </div>
 </div>
 
-  {% comment %} Add the data, for Tugas 4 {% endcomment %}
+  <!-- {% comment %} Add the data, for Tugas 4 {% endcomment %}
   <div class="row" id="card-container">
-  </div>
+  </div> -->
   
-  <script src="/static/leaderboard/js/jquery.waypoints.min.js"></script>
-  <script src="/static/leaderboard/js/infinite.min.js"></script>
-  <script src="/static/leaderboard/js/script.js" type="text/javascript"></script>
+  <script src="{% static 'leaderboard/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'leaderboard/js/infinite.min.js' %}"></script>
+  <script src="{% static 'leaderboard/js/script.js' %}"></script>
    
   {% endblock content %}
 

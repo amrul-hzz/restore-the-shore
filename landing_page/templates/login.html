@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% load static %}
 
 {% block meta %}
-<title>Login (masih blm kelar ya)</title>
+<title>Login</title>
 {% endblock meta %}
 
 {% block content %}
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .main {
+        .center {
             text-align:center; 
         }
         .logintitle {
@@ -32,11 +32,12 @@
 </head>
 <body style="background-color:#ADD8E6">
     <div class = "login">
-
-        <h1 class="logintitle">Login</h1>
+        <div>
+        <h1 class="logintitle">Log in to Your Account</h1>
     
         <form method="POST" action="">
             {% csrf_token %}
+            <div class="center">
             <table class="logincontent">
                 <tr>
                     <td>Username: </td>
@@ -53,6 +54,7 @@
                     <td><input class="btn login_btn" type="submit" value="Login"></td>
                 </tr>
             </table>
+            </div>
         </form>
     
         {% if messages %}
@@ -63,8 +65,8 @@
             </ul>
         {% endif %}     
             
-        Belum mempunyai akun? <a href="{% url 'landing_page:register' %}">Buat Akun</a>
-    
+        Haven't made an account? <a href="{% url 'landing_page:register' %}">Register</a>
+        </div>
     </div>
     
 </body>

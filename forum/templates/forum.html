@@ -1,58 +1,163 @@
 {% extends 'base.html' %}
 
 {% block meta %}
+    <title>Restore the Shore | Forum</title>
+    <script>
+        $(document).ready(function(){
+            $.get(window.location.href + "json/", function (data) {
+                for(i = 0; i < data.length; i++){
+                    showPost(data[i]);
+                }
+            });
+
+            function showPost(data){
+                $("#forum-posts").append(
+                    `
+                        <div class="row" style="margin:5px;">
+                            <div class="card" id="post-${data.pk}" style="outline:black;">
+                                <div class="card-header"><b>${data.fields.creator_name}</b></div>
+                                    <div class="card-body">
+                                        <img src="${data.fields.image}" class="post-image"/>
+                                        <p class="card-content">${data.fields.content}</p>
+                                    </div>
+                                <div class="card-footer text-muted">Posted on ${data.fields.date}</div>
+                            </div>
+                        </div>
+                    `
+                );
+            } 
+
+            $("#new-post-form").submit(function(e){
+                e.preventDefault();
+
+                $.post("/forum/add-post/", {
+                    content: $("#content").val(),
+                    image: $("#image").val()
+                }).done(function(data){
+                    showPost(data);
+
+                    const posts = document.getElementById("forum-posts");
+                    posts.insertAdjacentElement("beforestart", `#post-${data.pk}`);
+                });
+
+                $("#staticBackdrop").modal("hide");
+            });
+
+
+        });
+        
+    </script>
+    
 {% endblock meta %}
 
 {% block content %}
-  <!-- Create New Post Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
+    <style type="text/css">
+        .column {
+            float: left;
+            width: 33.33%;
+        }
 
-        <div class="modal-body">
-          <form id="new-task-form" method="POST">
-            {% csrf_token %}
+        #add-post-button{
+            position: fixed;
+            bottom: 5%;
+            right: 5%;
+            border-radius: 50%;
+        }
+    </style>
 
-            <div id="title-group" class="" form-group>
-              <label for="task-title">Title</label>
-              <input type="text" class="form-control" id="title" name="title" />
-            </div>
-
-            <div id="description-group" class="" form-group>
-              <label for="task-description">Description</label>
-              <input type="text" class="form-control" id="description" name="description" />
-            </div>
-
-            <br />
-
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <input type="submit" class="btn btn-primary" value="Submit" />
-          </form>
-        </div>
-      </div>
+    <!-- Posts -->
+    <div 
+        class="forum-posts h-100 d-flex align-items-center justify-content-center" 
+        id="forum-posts"
+        style="flex-direction:column-reverse;"
+    >
     </div>
-  </div>
+
+    <!-- Create New Post Modal Button -->
+    <button
+        id="add-post-button"
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+    >
+    +
+    </button>
+
+    <!-- Create New Post Modal -->
+    <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Add A New Post</h1>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="new-post-form" method="POST">
+                    {% csrf_token %}
+
+                    <div id="image-group" class="form-group">
+                        <label for="image">Image</label>
+                        <input
+                            type="url"
+                            class="form-control"
+                            id="image"
+                            onchange="loadFile(event)"
+                            placeholder="Enter image link"
+                        />
+ 
+                        <div>
+                            <br>
+                            <img id="output" style="max-width: 100%; height: auto;"/>
+                        </div>
+                        <script>
+                            var loadFile = function(event) {
+                                var output = document.getElementById("output");
+                                var link = document.getElementById("image").value;
+                                output.src = link;
+                            };
+                        </script>
+                    </div>
+
+                    <div id="content-group" class="form-group">
+                        <label for="content">Content</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="content"
+                            name="content" 
+                            placeholder="Write your text here"
+                        />
+                    </div>
+
+                    <br>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
 {% endblock content %}

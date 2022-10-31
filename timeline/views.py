@@ -4,7 +4,7 @@ from django.shortcuts import render
 from create_event.models import Event
 from timeline.models import JoinEvent
 from django.shortcuts import redirect
-from my_account.models import UserAccount
+from landing_page.models import UserAccount
 from django.db.models import F
 from timeline.forms import JoinEventForm
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
-@login_required(login_url='/landing_page/login/')
+@login_required(login_url='/welcome/login/')
 def show_data(request):
    
 
