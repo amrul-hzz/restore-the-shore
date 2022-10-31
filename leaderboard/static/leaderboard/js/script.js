@@ -3,8 +3,12 @@ $(document).ready(function(e){
         type: 'GET',
         url: window.location.href + "json",
         success: function(response) {
+
+            console.log(response)
+            $("#container").empty();
+            
             for (let i = 0; i < response.length; i++) {
-                addUserToLeaderboard($('.infinite-container'), response[i]["fields"], response[i]["pk"]);
+                addUserToLeaderboard($('#container'), response[i]["fields"], response[i]["pk"]);
             }
         },
         error: function(response) {
@@ -33,8 +37,10 @@ $("#search-user-btn").click(function(e) {
 });
 
 function addUserToLeaderboard($element, fields, user_id) { // Fields based on UserAccount
-    const user = fields["user"];
-    const name = user["username"];
+    const name = fields["user"]["username"];
+
+    console.log(fields["user"]);
+
     const points = fields["user_point"];
   
     var html = 
@@ -43,9 +49,9 @@ function addUserToLeaderboard($element, fields, user_id) { // Fields based on Us
             <div class= "card-body">
                 <h2 style="font-size:18px;font-weight:bold;min-height:42px;">
                     ${name}</h2>
-                <!-- <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">${points} points</small>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>`
@@ -61,10 +67,10 @@ $('#quote-user-btn').click(function(e) {
 
     $('#quotebox').val(""); // emptying the searchbox
 
-    $('#container').empty(); // emptying container
-
     if (quoteMsg) {
         $.post("/leaderboard/add-quote/" + quoteMsg + "/", {}).done( (e) => {
+            $('#quote').empty(); // emptying quote container
+
             $.get("/leaderboard/add-quote/" + quoteMsg + "/", function(data) { // Get data from models via func in views
                 addQuote($('#quote', data));
             });

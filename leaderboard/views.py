@@ -11,8 +11,8 @@ import random
     
 # Create your views here.
 def show_leaderboard(request):
-    data_leaderboard = LeaderBoard.objects.all().order_by('-user_point', '-user__date_joined') # Tambahkan berdasarkan jumlah join_event dari UserAccount
-    paginator = Paginator(data_leaderboard.user, 2) # Show 2 account per page.
+    data_leaderboard = UserAccount.objects.all().order_by('-user_point', '-user__date_joined') # Tambahkan berdasarkan jumlah join_event dari UserAccount
+    paginator = Paginator(data_leaderboard, 2) # Show 2 account per page.
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -48,15 +48,15 @@ def add_quote(request, quote):
             form = form.save(commit = False) # not yet saved to db
             form.user = request.user
             form.save() # saved to db, by default your own made models
+    elif request.method == "GET":
+        data_quote = list(LeaderBoard.objects.all())
+        random_quote = random.choice(data_quote)
 
-            data_quote = list(LeaderBoard.objects.all())
-            random_quote = random.choice(data_quote)
-
-            context = {
-                'random_quote': random_quote,
-                'name': form.user.username
-            }
-            return context
+        context = {
+            'random_quote': random_quote,
+            'name': form.user.username
+        }
+        return context
             # return JsonResponse({
             #     "pk": form.pk,
             #     "fields": {
