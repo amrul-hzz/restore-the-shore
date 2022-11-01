@@ -1,3 +1,5 @@
+![example workflow](https://github.com/amrul-hzz/restore-the-shore/actions/workflows/dpl.yml/badge.svg)
+
 # Template Proyek Django PBP
 Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
 
@@ -52,6 +54,14 @@ Modul ini berisi halaman papan peringkat yang akan menampilkan user dengan point
 - Mengakses modul Forum dan memberikan komentar.
 - Dapat mendaftarkan diri ke event di modul TimeLine.
 
-## Credits
+## REFERENSI
 
-Template ini dibuat berdasarkan [PBP Ganjil 2021](https://gitlab.com/PBP-2021/pbp-lab) yang ditulis oleh Tim Pengajar Pemrograman Berbasis Platform 2021 ([@prakashdivyy](https://gitlab.com/prakashdivyy)) dan [django-template-heroku](https://github.com/laymonage/django-template-heroku) yang ditulis oleh [@laymonage, et al.](https://github.com/laymonage). Template ini dirancang sedemikian rupa sehingga mahasiswa dapat menjadikan template ini sebagai awalan serta acuan dalam mengerjakan tugas maupun dalam berkarya.
+1. [OECD work on G20 Issues](https://www.oecd.org/g20/topics/)
+
+2. [Sustainability - Climate Sustainability and Energy](https://www.oecd.org/g20/topics/climate-sustainability-and-energy/)
+
+3. [What is Beach Clean-Ups](https://beachapedia.org/Beach_Cleanups)
+
+4. [Why Beach Clean-Ups are Important](https://www.wavetribe.com/blogs/eco/why-beach-cleanups-are-important)
+
+5. [How to Organize a Beach Clean Up](https://www.wikihow.com/Organize-a-Beach-Clean-Up)
