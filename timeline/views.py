@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
-@login_required(login_url='/welcome/login/')
+
 def show_data(request):
    
 
