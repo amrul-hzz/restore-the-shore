@@ -7,6 +7,7 @@
             $.get(window.location.href + "json/", function (data) {
                 for(i = 0; i < data.length; i++){
                     showPost(data[i]);
+                    appendAllComments(data[i]);
                 }
             });
 
@@ -15,17 +16,51 @@
                     `
                         <div class="row" style="margin:5px;">
                             <div class="card" id="post-${data.pk}" style="outline:black;">
-                                <div class="card-header"><b>${data.fields.creator_name}</b></div>
-                                    <div class="card-body">
-                                        <img src="${data.fields.image}" class="post-image"/>
-                                        <p class="card-content">${data.fields.content}</p>
-                                    </div>
-                                <div class="card-footer text-muted">Posted on ${data.fields.date}</div>
+                               
+                                <div class="card-body">
+                                    <p>${data.fields.creator_name}</p>
+                                    <hr>
+                                    <img src="${data.fields.image}" class="post-image"/>
+                                    <p class="card-content"> <b>${data.fields.creator_name}</b> ${data.fields.content}</p>
+                                    <p> Posted on ${data.fields.date} </p>
+                                </div>
+                                <div class="card-footer text-muted"> 
+                                    <a data-toggle="collapse" href="#comments-${data.pk}" role="button" aria-expanded="false" aria-controls="comments-${data.pk}">
+                                    Show replies
+                                    </a>
+
+                                    <div class ="collapse" id="comments-${data.pk}"></div>
+                                </div>
                             </div>
                         </div>
                     `
                 );
             } 
+
+            function appendComment(comment){
+                $(`#comments-${comment.original_post}`).append(
+                    `
+                        <div>
+                            <p> <b>${comment.creator_name}</b> ${comment.content} </p>
+                        </div>
+                    `
+                );
+
+            }
+
+            function appendAllComments(currentPost){
+                $.get(window.location.href + "json-comments/" + currentPost.pk + "/", function(comments){
+                    if (comments.length == 0) {
+                        $(`#comments-${currentPost.pk}`).append(`<p>No comments yet</p>`);
+                    }
+                    else{
+                        for (i = 0; i < comments.length; i++) {
+                            appendComment(comments[i]);
+                        }
+                        
+                    }
+                });
+            }
 
             $("#new-post-form").submit(function(e){
                 e.preventDefault();
