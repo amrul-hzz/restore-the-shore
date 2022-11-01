@@ -3,6 +3,7 @@
 
 {% block meta %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <!-- Latest compiled and minified JavaScript -->
@@ -12,13 +13,13 @@
 <body>
   {% block content %}
 
-  <div class="container" style="max-width:700px">
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Leaderboard</h1>
-        <p class="lead">Top users Restore the Shore</p>
+  <div class="container flex flex-col w-full" style="max-width:700px">
+    <div class="px-3 pt-md-5 mx-auto text-center">
+        <h1 class="display-4 text-5xl font-bold pb-2 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-700">Leaderboard</h1>
+        <p class="lead">Top Users of <span class="italic text-blue-900">Restore-The-Shore's</span> Event</p>
     </div>
 
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" id="quote">
+    <div class="px-3 pt-md-5 text-center w-full flex pb-3" id="quote">
     </div>
 
     <!-- <div class="input-group">
@@ -32,27 +33,29 @@
         </button>
     </div> -->
 
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search for user..." aria-label="Search for user" aria-describedby="basic-addon2" id="searchbox">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="search-user-btn">Search</button>
+    <div class="flex flex-col w-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-md px-4 py-3">
+        <div class="px-3 pb-md-4 text-center">
+            <p class="lead text-base font-medium text-white lg:pb-0 md:pb-0 italic">Congratulate and motivate your friends!</p>
+        </div>
+        <div class="input-group mb-3">
+            <form method="POST" id="quote-form" class="w-full">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Write your message..." aria-label="Write your message" aria-describedby="basic-addon2" id="quotebox">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary font-semibold bg-indigo-700 text-white" type="button" id="quote-user-btn">Send</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <p class="lead">Congratulate and motivate your friends!</p>
+    <div class="input-group mt-10 flex justify-end">
+        <input type="text" class="form-control justify-end" placeholder="Search for user..." aria-label="Search for user" aria-describedby="basic-addon2" id="searchbox">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary font-semibold bg-indigo-500 text-white" type="button" id="search-user-btn">Search</button>
+        </div>
     </div>
-    <div class="input-group mb-3">
-        <form method="POST" id="quote-form">
-            {% csrf_token %}
-            <input type="text" class="form-control" placeholder="Write your message..." aria-label="Write your message" aria-describedby="basic-addon2" id="quotebox">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="quote-user-btn">Send</button>
-            </div>
-        </form>
-    </div>
-
-    
 
     <div class="py-5">
 
