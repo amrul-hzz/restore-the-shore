@@ -2,12 +2,20 @@
 
 from django.shortcuts import render
 from create_event.models import Event
+from timeline.models import JoinEvent
 from django.shortcuts import redirect
 from landing_page.models import UserAccount
 from django.db.models import F
-from timeline.forms import sortForm
+from timeline.forms import JoinEventForm
+from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponse, JsonResponse
+from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
+
+@login_required(login_url='/welcome/login/')
 def show_data(request):
    
 
@@ -17,28 +25,42 @@ def show_data(request):
  
     }  
 
-    if request.method == 'POST':
-        form = sortForm()(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('timeline.html'))
-    else:
-        form = sortForm()
-        response = {
-        'datalist':  data_event,
-        'form': form,
-        }   
-        return render(request, 'timeline.html', response)
+   
     
     return render(request, "timeline.html", response)
 
-def delete_card(request, pk):
-    Event.objects.get(id=pk).delete()
 
-    return redirect('timeline:show_data')
-
+@csrf_exempt
 def join_event(request):
-    thisUser = UserAccount.objects.filter(user=request.user)
-    thisUser.update(user_point==F('user_point') + 1)
+    form = JoinEventForm()
+    if request.method == "POST":
+        form = JoinEventForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit = False)
+            form.user = request.user
+            form.save()
+            return JsonResponse({
+                "pk" : form.pk, "fields": {
+                "namaEvent" : form.namaEvent,
+                "namaPantai" : form.namaPantai,
+                "alamatPantai" : form.alamatPantai,
+                "jumlahPartisipan" : form.jumlahPartisipan,
+                "fotoPantai" : form.fotoPantai,
+                "deskripsi" : form.deskripsi,
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
+            }})
+
+def show_event_by_id(request, pk):
+    data = Event.objects.get(id=pk)
+    context = {
+        'data' : data,
+    }
+    return render(request, "event_detail.html", context)
+
+def show_json(request):
+    data_event = JoinEvent.objects.filter(user = request.user)
+    return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+    
     
     

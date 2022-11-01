@@ -1,5 +1,5 @@
 from django.urls import path
-from landing_page.views import logout_user, register, login_user, logout_user, welcome
+from landing_page.views import logout_user, register, login_user, welcome
 
 app_name = 'landing_page'
 

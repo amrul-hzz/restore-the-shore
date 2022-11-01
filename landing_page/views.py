@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def welcome(request):
+    #if request.user.is_authenticated:
+    #    if not UserAccount.objects.filter(user = request.user).exists(): # check if account already exist
+    #        UserAccount.objects.create(user = request.user, user_point = 0)
     #context = {
     #    'this_user' : UserAccount.objects.filter(user = request.user)
     #    'last_login': request.COOKIES['last_login'],

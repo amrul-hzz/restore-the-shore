@@ -19,11 +19,16 @@
   aside,
   header,
   nav {
-    background: rgba(255, 255, 255, 0.938);
+    background: rgb(255, 255, 255);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
     color: rgb(0, 0, 0);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
   }
 
   article,
@@ -54,6 +59,10 @@
     margin-bottom: 5px;
   }
 
+  .btn-primary {
+    background-color: #6366F1;
+  }
+
   #congrats {
     font-size: medium;
     margin-top: 2%;
@@ -67,6 +76,10 @@
 
   #point {
     font-size: large;
+  }
+
+  #change-pass {
+    margin-top: 1vh;
   }
 
 </style>
@@ -98,7 +111,7 @@
         }
         if (i == 0) {
           $("#my-posts").append(`
-          <a href="{% url 'forum:show_forum' %}">Post Something</a>
+          <a type="button" class="btn btn-primary mx-auto" href="{% url 'forum:show_forum' %}">Post Something</a>
           <h5 class="text-muted"> You haven't post anything </h5>
           `);
         }
@@ -109,7 +122,12 @@
 
 <div id="wrapper">
   <header>
-    <h1>Hi {{user.get_username}},</h1>
+    <div>
+      <h1>Hi {{user.get_username}},</h1>
+    </div>
+    <div>
+      <a type="button" class="btn btn-primary mx-auto" id="change-pass" href="{% url 'my_account:change_password' %}">Change Password</a>
+    </div>
   </header>
   <!-- My Posts -->
   <article id="article">
@@ -169,8 +187,10 @@
       {% for event in user_data.events_joined.all %}
       <div class="row">
         <div class="card">
-          <div class="card-header" style="font-weight: bold;">{{event.namaEvent}} @{{event.namaPantai}}</div>
-          <div class="card-body">{{event.alamatPantai}}</div>
+          <div class="card-body" style="font-weight: bold;">
+            <p>{{event.namaEvent}} @{{event.namaPantai}}</p>
+            <a class="btn btn-primary" href="/create-event/show-info/{{event.pk}}">Lihat Info</a>
+          </div>
           <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
         </div>
       </div>
