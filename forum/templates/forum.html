@@ -7,7 +7,6 @@
             $.get(window.location.href + "json/", function (data) {
                 for(i = 0; i < data.length; i++){
                     showPost(data[i]);
-                    appendAllComments(data[i]);
                 }
             });
 
@@ -24,24 +23,63 @@
                                     <p class="card-content"> <b>${data.fields.creator_name}</b> ${data.fields.content}</p>
                                     <p> Posted on ${data.fields.date} </p>
                                 </div>
+
                                 <div class="card-footer text-muted"> 
+
                                     <a data-toggle="collapse" href="#comments-${data.pk}" role="button" aria-expanded="false" aria-controls="comments-${data.pk}">
-                                    Show replies
+                                        Show replies
                                     </a>
 
-                                    <div class ="collapse" id="comments-${data.pk}"></div>
+                                    <div class="collapse" id="comments-${data.pk}">
+                                        <form id="new-comment-form-${data.pk}" method="POST">
+                                            {% csrf_token %}
+
+                                            <div id="comment-content-group" class="form-group">
+                                                <input 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    id="comment-content"
+                                                    name="comment-content" 
+                                                    placeholder="Write your comment here"
+                                                />
+                                            </div>
+
+                                            <input type="submit" class="btn btn-primary" value="Submit" />
+                                        </form>  
+                                    </div>
+
+                                    <script>
+                                        $("#new-comment-form-${data.pk}").submit(function(e){
+                                            e.preventDefault();
+
+                                            $.post("/forum/add-comment/" + ${data.pk} + "/", {
+                                                content: $("#comment-content").val()
+                                            }).done(function(comment){
+                                                appendComment(comment);
+
+                                                const comments = document.getElementById("comments-${data.pk}");
+                                                comments.insertAdjacentHTML("beforestart", "#comment-${comment.pk}-on-post-${data.fields.original_post}");
+                                            });
+                                        });
+                                    </script>
+
                                 </div>
                             </div>
+                            
                         </div>
                     `
                 );
+
+                appendAllComments(data);
             } 
 
             function appendComment(comment){
-                $(`#comments-${comment.original_post}`).append(
+                $(`#no-comment-${comment.fields.original_post}`).empty();
+
+                $(`#comments-${comment.fields.original_post}`).prepend(
                     `
-                        <div>
-                            <p> <b>${comment.creator_name}</b> ${comment.content} </p>
+                        <div id="comment-${comment.pk}-on-post-${comment.fields.original_post}">
+                            <p> <b>${comment.fields.creator_name}</b> ${comment.fields.content} </p>
                         </div>
                     `
                 );
@@ -50,7 +88,9 @@
             function appendAllComments(currentPost){
                 $.get(window.location.href + "json-comments/" + currentPost.pk + "/", function(comments){
                     if (comments.length == 0) {
-                        $(`#comments-${currentPost.pk}`).append(`<p>No comments yet</p>`);
+                        $(`#comments-${currentPost.pk}`).prepend(
+                            `<p id="no-comment-${currentPost.pk}">No comments yet</p>`
+                        );
                     }
                     else{
                         for (i = 0; i < comments.length; i++) {
@@ -71,12 +111,11 @@
                     showPost(data);
 
                     const posts = document.getElementById("forum-posts");
-                    posts.insertAdjacentElement("beforestart", `#post-${data.pk}`);
+                    posts.insertAdjacentHTML("beforestart", `#post-${data.pk}`);
                 });
 
                 $("#staticBackdrop").modal("hide");
             });
-
 
         });
         
