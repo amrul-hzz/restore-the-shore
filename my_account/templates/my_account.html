@@ -140,28 +140,6 @@
         }
       },
     });
-
-    $.ajax({
-      url: "{% url 'timeline:show_json' %}",
-      dataType: 'json',
-      success: function (data) {
-        for (var i = 0; i < data.length; i++) {
-          $("#myEvent").append(
-                    `
-                    <div class="row">
-                      <div class="card">
-                        <div class="card-body" style="font-weight: bold;">
-                          <p>${data[i].fields.namaEvent} @${data[i].fields.namaPantai}</p>
-                          <a class="btn btn-primary" href="/create-event/show-info/${data[i].pk}">Lihat Info</a>
-                        </div>
-                        <div class="card-footer text-muted">${data[i].fields.tanggalMulai} - ${data[i].fields.tanggalAkhir}</div>
-                      </div>
-                    </div>
-                    `
-          );
-        }
-      },
-    });
   });
 </script>
 
@@ -233,7 +211,16 @@
       <p>You have joined {{user_data.events_joined.all.count}} event(s)</p>
       {% endif %}
       <div id="myEvent" class="column d-flex align-items-center justify-content-center flex-column">
-        
+        {% for event in user_data.events_joined.all %}
+        <div class="row">
+          <div class="card">
+            <div class="card-body" style="font-weight: bold;">
+              <p>{{event.namaEvent}} @{{event.namaPantai}}</p>
+            </div>
+            <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </aside>
   </div>
