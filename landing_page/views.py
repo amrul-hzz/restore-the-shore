@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from landing_page.models import Feedback #, UserAccount
+from landing_page.models import Feedback, UserAccount
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
