@@ -88,7 +88,7 @@
 </head>
 <body>
     <div style="background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');">
-    <div class="center"><h1 style="background-color:midnightblue; color:white">Restore the Shore</h1></div>
+    <div class="center"><h1 style="background-color:midnightblue; color:white; font-family:'Times New Roman', Times, serif;">Restore the Shore</h1></div>
     {% if request.user.is_authenticated %}
         <div class="center">
         <div class="menu">
@@ -105,7 +105,7 @@
         <div class="right">
             <img class="imgsmall" src="https://www.travelandleisure.com/thmb/z58cxJrR_0MJRq2cePrO9KUnF9g=/1200x1200/smart/filters:no_upscale()/saud-beach-luzon-philippines-WRLDBEACH0421-15e2c368e7ad4495be803bd60cafa379.jpg" alt="..." />
         </div>-->
-        <h2 class="center" style="margin: 30px; color:white">
+        <h2 class="center" style="margin: 30px; color:white; font-family: 'Times New Roman', Times, serif;">
             -------Our Visions-------
         </h2>
         
@@ -131,19 +131,24 @@
         
         <img class="img" src="https://www.mecc.gov.qa/wp-content/uploads/2022/09/%D8%AA%D9%86%D8%B8%D9%8A%D9%81-%D8%B4%D8%A7%D8%B7%D9%8A%D9%94-%D8%A7%D8%A8%D9%88%D9%81%D9%86%D8%B7%D8%A7%D8%B3.jpg-2-1024x768.jpg" alt="..." />
         <div class="card">
-        <h3 class="center">Rise Awareness to Resolve Climate Change</h3>
+        <h3 class="center">Raise Awareness to The Importance of Beaches</h3>
         <div class="box1">By participating in these events, participants can raise awareness of the importance of beaches to even more people, so more people will have
             the knowledge and will be more motivated to preserve beaches.
         </div>
         </div>
-        
+        </div>
+
+        <div class="center" id="showmessage">
+            
+        </div>
 
         <div class="center" style="margin:auto">
             
             <h2 style="color: white">Send a Feedback!</h2>
-            <form>
+            <form method="POST" id="new_feedback">
+            {% csrf_token %}
             <div>
-                <input type="text"name="message" placeholder="Type here...">
+                <input type="text" name="message" placeholder="Type here..." id="message">
                 <input type="submit">
             </div>
             </form>
@@ -174,7 +179,7 @@
         <div class="right">
             <img class="imgsmall" src="https://www.travelandleisure.com/thmb/z58cxJrR_0MJRq2cePrO9KUnF9g=/1200x1200/smart/filters:no_upscale()/saud-beach-luzon-philippines-WRLDBEACH0421-15e2c368e7ad4495be803bd60cafa379.jpg" alt="..." />
         </div>-->
-        <h1 class="center" style="margin: 30px; color:white">
+        <h1 class="center" style="margin: 30px; color:white; font-family: 'Times New Roman', Times, serif;">
             -------Our Visions-------
         </h1>
         
@@ -211,5 +216,18 @@
 
     {% endif %}
     </div>
+    <script>
+        $(document).ready(function(){
+            $("#new_feedback").submit(function(e){
+            e.preventDefault();
+            $.post("/feedback/",{
+                message:$("#message").val(),
+            }).done(function(e){
+                $("#message").val("");
+            })
+            });
+        }
+        );
+    </script>
 </body>
 {% endblock content %}
