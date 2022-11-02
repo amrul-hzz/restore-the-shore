@@ -1,0 +1,30 @@
+
+    body {
+      background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');
+    } 
+  
+    .card-img-top {
+      width: 100%;
+      height: 15vw;
+      object-fit: cover;
+    }
+    .card{
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+      transition: .3s ;
+      overflow: hidden;
+      cursor: pointer;
+     
+     
+    }
+  
+    .card:hover{
+      transform: scale(1.09);
+      box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+      background-color: #8064A2 !important;
+    }
+  
