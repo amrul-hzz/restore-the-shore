@@ -1,3 +1,4 @@
+
 <style>
     body {
       background-image: url('https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663');
@@ -46,47 +47,87 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 </head>
 
-
-<h1>TIMELINE</h1>
-
+<body>
+  {% block content %}
+  <h1>TIMELINE</h1>
+  {% if request.user.is_authenticated %}
+  
 
 <div class="container">
     <br>
     
     
-    <div class ="row">
-        {% for data in datalist %}
-        <div class ="col-12 col-md-6 col-lg-4 list-umkm">
-            <div class ="card ratio-4x3">
-                <div class="card-header overflow-hidden p-0">
-                {% if data.fotoPantai %}
-                <img class="w-40 h-30 card-img-top" src="{{data.fotoPantai}}" >
-
-                {% endif %}
-                </div>
-                
-                <div class="card-body">
-                
-
-                <h5 class="card-title">Event: {{data.namaEvent}}</h5>
-                <h5 class="card-title">Pantai: {{data.namaPantai}}</h5>
-                <h5 class="card-title">Lokasi: {{data.alamatPantai}}</h5>
-                <h5 class="card-title">Partisipan: {{data.jumlahPartisipan}}</h5>
-                <h5 class="card-title">Deskripsi: {{data.deskripsi}}</h5>
-                <h5 class="card-title">Tanggal Mulai: {{data.tanggalMulai}}</h5>
-                <h5 class="card-title">Tanggal Akhir: {{data.tanggalAkhir}}</h5>
-
-                <div>
-                    <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'timeline:delete_card' data.pk %}" title="">Join</a></button>
-                    
-                </div>
-                
-                
-                </div>
-            </div>
+    <div class ="row ">
+        
+        <div class ="col-12 col-md-6 col-lg-4 " id="data_list">
         </div>
 
         <br>
 
-        {% endfor %}
+        
     </div>
+  {% else %}
+
+  <p> halo </p>
+  {% endif %}
+  
+  {% endblock content %}
+</body>
+
+<script>
+  $(document).ready(function(){
+    loadData();
+      
+    console.log("halo");
+  })
+
+  
+  // function joinEvent(id) {
+  //           $.ajax({
+  //               url: ` '/timeline/join_event/id'`,
+  //               type: 'POST',
+  //               success: function (result) {
+  //                  
+  //               }
+  //           });
+  //       }
+
+
+ 
+
+  const card = (data) => `
+    
+      <div class ="card ratio-4x3" id="${data.pk}-card">
+          <div class="card-header overflow-hidden p-0">
+  
+          <img class="w-40 h-30 card-img-top" src=${data.fields.fotoPantai} id="${data.pk}-foto">
+
+        
+          </div>
+          
+          <div class="card-body">
+          
+
+
+          <h5 class="card-title" id= "${data.pk}-namaPantai">Pantai: ${data.fields.namaPantai}</h5>
+          <h5 class="card-title" id= "${data.pk}-alamatPantai">Lokasi: ${data.fields.alamatPantai}</h5>
+          <h5 class="card-title" id= "${data.pk}-tanggalMulai">Tanggal Mulai: ${data.fields.tanggalMulai}</h5>
+          <h5 class="card-title" id= "${data.pk}-tanggalAkhir">Tanggal Akhir: ${data.fields.tanggalAkhir}</h5>
+
+          
+          <a href="event_detail/${data.pk}", class="btn btn-primary">Read More</a>
+          
+          </div>
+      </div>
+      <br>
+      `
+
+  function loadData(){
+    $.get('../create-event/json/', function (data) {
+      for(var i = 0; i < data.length; i++){
+        console.log(data[i])
+        $('#data_list').append(card(data[i]))
+      }
+  })
+  }
+</script>
