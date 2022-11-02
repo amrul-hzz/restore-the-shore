@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('landing_page', '0001_initial'),
+        
         ('forum', '0002_comment_rename_post_post_content_remove_post_poster'),
     ]
 
