@@ -19,11 +19,16 @@
   aside,
   header,
   nav {
-    background: rgba(255, 255, 255, 0.938);
+    background: rgb(255, 255, 255);
     margin-bottom: 10px;
     text-align: left;
     padding: 1.5vh;
     color: rgb(0, 0, 0);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
   }
 
   article,
@@ -54,6 +59,31 @@
     margin-bottom: 5px;
   }
 
+  .btn {
+    width: auto;
+  }
+
+  .btn-primary {
+    background-color: #6366F1;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+  @media (max-width: 800px) {
+    .flex-container {
+      flex-direction: column;
+    }
+
+    article, aside {
+      width: 96%;
+      margin: 1% 2% 1% 2%;
+    }
+  }
+
   #congrats {
     font-size: medium;
     margin-top: 2%;
@@ -67,6 +97,10 @@
 
   #point {
     font-size: large;
+  }
+
+  #change-pass {
+    margin-top: 1vh;
   }
 
 </style>
@@ -98,8 +132,10 @@
         }
         if (i == 0) {
           $("#my-posts").append(`
-          <a href="{% url 'forum:show_forum' %}">Post Something</a>
-          <h5 class="text-muted"> You haven't post anything </h5>
+          <a type="button" class="btn btn-primary mx-auto" href="{% url 'forum:show_forum' %}">Post Something</a>
+          <br>
+          <h5 class="text-muted font-weight-light"> You haven't post anything </h5>
+          <br>
           `);
         }
       },
@@ -109,26 +145,32 @@
 
 <div id="wrapper">
   <header>
-    <h1>Hi {{user.get_username}},</h1>
+    <div>
+      <h1>Hi {{user.get_username}},</h1>
+    </div>
+    <div>
+      <a type="button" class="btn btn-primary mx-auto" id="change-pass" href="{% url 'my_account:change_password' %}">Change Password</a>
+    </div>
   </header>
   <!-- My Posts -->
-  <article id="article">
-    <h3>My Posts</h3>
-    <hr style="border-top: 2px dashed;">
+  <div class="flex-container">
+    <article id="article">
+      <h3>My Posts</h3>
+      <hr style="border-top: 2px dashed;">
     <div 
-        class="my-posts column h-100 d-flex align-items-center justify-content-center" 
-        id="my-posts"
+    class="my-posts column h-100 d-flex align-items-center justify-content-center" 
+    id="my-posts"
         style="flex-direction:column-reverse;"
     >
     </div>
       
   </article>
   <aside id="aside">
-    <!-- Show Badges -->
+  <!-- Show Badges -->
     <h3>Badge</h3>
     <p id="point">Point : {{user_data.user_point}}</p>
     <div class="container">
-        {% if user_data.user_point >= 200 %}
+      {% if user_data.user_point >= 200 %}
         <div class="col">
           <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
           <p id="congrats">Congrats, You are a <span id="member-class">Platinum</span> Member</p>
@@ -149,36 +191,41 @@
           <p id="congrats">Congrats, You are a <span id="member-class">Bronze</span> Member</p>
         </div>
         {% else %}
-          <h5 class="text-muted" style="text-align: center;">You need more Points</h5>
+        <h5 class="text-muted" style="text-align: center;">You need more Points</h5>
         {% endif %}
-
-    </div>
-    
-    <!-- Show Event History -->
-    <hr style="border-top: 2px dashed;">
-    <h5>Event History</h5>
-    {% if user_data.events_joined.all.count == 0 %}
-      <p class="text-muted" style="text-align: center;">You haven't joined any event</p>
-      <div class="d-grid gap-1 col-4 mx-auto">
-        <a type="button" class="btn btn-primary mx-auto" href="{% url 'timeline:show_data' %}">Find Events</a>
+        
       </div>
-    {% else %}
+      
+      <!-- Show Event History -->
+      <hr style="border-top: 2px dashed;">
+      <h5>Event History</h5>
+      {% if user_data.events_joined.all.count == 0 %}
+      <div class="column h-100 d-flex align-items-center justify-content-center flex-column">
+        <h5 class="text-muted row font-weight-light" style="text-align: center;">You haven't joined any event</h5>
+        <a type="button" class="btn btn-primary mx-auto row" href="{% url 'timeline:show_data' %}">Find Events</a>
+      </div>
+      <div>      
+        
+      </div>
+      {% else %}
       <p>You have joined {{user_data.events_joined.all.count}} event(s)</p>
-    {% endif %}
-    <div id="myEvent" class="col">
-      {% for event in user_data.events_joined.all %}
-      <div class="row">
-        <div class="card">
-          <div class="card-header" style="font-weight: bold;">{{event.namaEvent}} @{{event.namaPantai}}</div>
-          <div class="card-body">{{event.alamatPantai}}</div>
-          <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
+      {% endif %}
+      <div id="myEvent" class="column d-flex align-items-center justify-content-center flex-column">
+        {% for event in user_data.events_joined.all %}
+        <div class="row">
+          <div class="card">
+            <div class="card-body" style="font-weight: bold;">
+              <p>{{event.namaEvent}} @{{event.namaPantai}}</p>
+            </div>
+            <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-  </aside>
+    </aside>
+  </div>
 </div>
-
+  
 
 
 {% endblock content %}

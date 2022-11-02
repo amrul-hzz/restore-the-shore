@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+   
+{% block meta %}
+<link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+
+<title>Event Detail</title>
+<script src="{%static 'js/detail.js' %}" ></script>
+
+{% endblock meta %}
+   
+
+    <body>
+        {% block content %}
+
+
+        
+        <br>
+
+        <div class="container">
+        <div class="row row-cols-1 row-cols-md-1 g-4 mx-5">
+            <div class ="card ratio-4x3" id="{{data.pk}}-card">
+                <div class="card-header overflow-hidden p-0">
+        
+                <img class="w-40 h-30 card-img-top" src={{data.fotoPantai}} id="{{data.pk}}-foto">
+              
+                </div>
+                
+                <div class="card-body">
+                
+      
+                <h5 class="card-title" id= "{{data.pk}}-namaEvent">{{data.namaEvent}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-namaPantai">{{data.namaPantai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-alamatPantai">{{data.alamatPantai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-jumlahPartisipan">{{data.jumlahPartisipan}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-deskripsi">{{data.deskripsi}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-tanggalMulai">{{data.tanggalMulai}}</h5>
+                <h5 class="card-title" id= "{{data.pk}}-tanggalAkhir">{{data.fields.tanggalAkhir}}</h5>
+      
+                
+                <button class="button" id="{{data.namaEvent}}">Join</button>
+                
+                </div>
+            </div>
+        </div>
+        </div>
+        <br>
+
+        {% endblock content %}
+    </body>
+
+  
+

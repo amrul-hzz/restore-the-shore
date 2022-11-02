@@ -1,12 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block meta %}
-<link rel="stylesheet" href="{% static 'css/timeline.css' %}" />
-
-<script src="{%static 'js/script.js' %}" ></script>
-<script>
-  $(document).ready(function(){
+$(document).ready(function(){
     loadData();
    
     
@@ -53,62 +45,3 @@
       }
   })
   }
-</script>
-
-{% endblock meta %}
-
-
-
-
-    
-    
-
-  
-  
-
-
-<body>
-  {% block content %}
-  
-
-  
-  
-
-  <div class="container">
-    
-      <h1 style="text-align: center; background-color:midnightblue; color:white">TIMELINE</h1>
-      {% if request.user.is_authenticated != True %}
-      <h1 style="text-align: center; background-color:midnightblue; color:white"><a href="/welcome/login/">LOGIN TO VIEW CONTENT</a></h1>
-      {% endif %}
-      <br>
-      
-      
-      <div class ="row ">
-          {% if request.user.is_authenticated %}
-          
-          <div class ="col-12 col-md-6 col-lg-4 " id="data_list">
-          </div>
-
-          {% endif %}
-
-         
-         
-
-          <br>
-
-          
-      </div>
-    
-  </div>
-
-
-
-
-   
- 
-  
-  
-  {% endblock content %}
-</body>
-
-
