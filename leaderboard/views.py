@@ -31,7 +31,7 @@ def search(request, searchusername):
         users = UserAccount.objects.filter(user__username__icontains=searchusername) # cari berdasarkan pola
         return HttpResponse(serializers.serialize("json", users), content_type="application/json")
 
-@login_required(login_url='landing_page:login_user')
+@login_required(login_url="/welcome/login/")
 @csrf_exempt
 def add_quote(request):
     form = AccountForm()
@@ -53,7 +53,21 @@ def add_quote(request):
             'name': random_quote.users.username
         }
 
-        return HttpResponse(json.dumps(context), content_type="application/json")      
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+@csrf_exempt
+def get_quote(request):
+    if request.method == "GET":
+        data_quote = list(LeaderBoard.objects.all())
+        random_quote = random.choice(data_quote)
+
+        context = {
+            'random_quote': random_quote.quote,
+            'name': random_quote.users.username
+        }
+
+        return HttpResponse(json.dumps(context), content_type="application/json")
 
 def show_json(request):
     if request.method == "GET":

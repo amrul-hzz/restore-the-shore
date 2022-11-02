@@ -6,15 +6,11 @@ $(document).ready(function(e){
 
             $("#container").empty();
 
-            $.get("/leaderboard/add-quote/", function(data) { // Get data from models via func in views
+            $.get("/leaderboard/get-quote/", function(data) { // Get data from models via func in views
                 addQuote($('#quote'), data);
             });
             
             for (let i = 0; i < response.length; i++) {
-                // $.get("/leaderboard/getuser/" + (i+1) + "/", function(data_user) {
-                //     console.log(data_user)
-                //     addUserToLeaderboard($('#container'), response["fields"], data_user["fields"], response[i]["pk"]);
-                // });
                 addUserToLeaderboard($('#container'), response[i]["fields"], response[i]["pk"]);
             }
         },
@@ -94,7 +90,7 @@ $('#quote-user-btn').click(function(e) {
     $('#quotebox').val(""); // emptying the searchbox
 
     $('#quote').empty(); // emptying quote container
-    $.get("/leaderboard/add-quote/", function(data) { // Get data from models via func in views
+    $.get("/leaderboard/get-quote/", function(data) { // Get data from models via func in views
         addQuote($('#quote'), data);
     });
     if (quoteMsg) {
