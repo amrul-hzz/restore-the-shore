@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from forms import FeedbackForm
+from .forms import FeedbackForm
 # Create your views here.
 
 def welcome(request):
