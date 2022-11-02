@@ -19,7 +19,7 @@ $(document).ready(function(){
                             <p class="card-content"> <b>${data.fields.creator_name}</b> ${data.fields.content}</p>
                             <p> Posted on ${data.fields.date} </p>
                             <a id="toggle-link-${data.pk}" data-toggle="collapse" href="#comments-${data.pk}" role="button" aria-expanded="false" aria-controls="comments-${data.pk}">
-                                Show replies
+                                Toggle replies
                             </a>
                         </div>
 
