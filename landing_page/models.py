@@ -8,8 +8,11 @@ from timeline.models import JoinEvent
 class UserAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_point = models.IntegerField(default = 0)
-    events_joined = models.ManyToManyField(JoinEvent)
+    username = models.CharField(max_length = 63, default = "unknown")
+    # import models dari Event
+    #events_joined = models.ManyToManyField(Event)
 
     # post di forum yang author nya user ini bisa langsung cek dari database forum aja
 
-    
+class Feedback(models.Model):
+    message = models.TextField()
