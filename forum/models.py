@@ -19,4 +19,4 @@ class Comment(models.Model):
     creator_name = models.CharField(max_length=255, default="Unknown")
     date = models.DateTimeField(auto_now_add=True)
     content = models.TextField(max_length=255)
-    original_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    original_post_id = models.PositiveIntegerField(default=0)

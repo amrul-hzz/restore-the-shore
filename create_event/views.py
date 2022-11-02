@@ -58,5 +58,5 @@ def show_more_info(request, id):
     return render(request, "show_info.html", context)
 
 def show_json(request):
-    data_event = Event.objects.filter(user = request.user)
+    data_event = Event.objects.all()
     return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")

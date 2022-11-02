@@ -54,7 +54,7 @@ Modul ini berisi halaman papan peringkat yang akan menampilkan user dengan point
 - Mengakses modul Forum dan memberikan komentar.
 - Dapat mendaftarkan diri ke event di modul TimeLine.
 
-## Referensi
+## REFERENSI
 
 1. [OECD work on G20 Issues](https://www.oecd.org/g20/topics/)
 

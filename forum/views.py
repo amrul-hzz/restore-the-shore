@@ -34,7 +34,7 @@ def show_forum_json_by_user(request):
 @login_required(login_url="/welcome/login/")
 @csrf_exempt
 def show_comments_json(request, id):
-    comments_data = Comment.objects.filter(original_post=id)
+    comments_data = Comment.objects.filter(original_post_id=id)
     return HttpResponse(serializers.serialize("json", comments_data), content_type="application/json")
 
 @login_required(login_url="/welcome/login/")
@@ -72,18 +72,13 @@ def add_comment(request, id):
             form.creator = request.user
             form.creator_name = request.user.username
             form.date = datetime.datetime.now()
-            form.original_post = Post.objects.filter(pk=id)
+            form.original_post_id = id
             form.save()
 
-            return JsonResponse({
-                "pk": form.pk,
-                "fields":
-                {
-                    "creator_name": form.creator_name,
-                    "date": form.date,
-                    "content": form.content,
-                    "original_post": id
-                }
-            });
+        comments_data = Comment.objects.all()
+        context = {
+            "comments_data": comments_data
+        }    
+        return render(request, "forum.html", context)
     else:
         return HttpResponseBadRequest('Invalid request')
