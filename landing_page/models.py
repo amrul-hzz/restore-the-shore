@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class UserAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_point = models.IntegerField(default = 0)
-    username = models.CharField(max_length = 63)
+    username = models.CharField(max_length = 63, default = "unknown")
     # import models dari Event
     #events_joined = models.ManyToManyField(Event)
 
