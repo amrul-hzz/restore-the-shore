@@ -1,4 +1,5 @@
 ![example workflow](https://github.com/amrul-hzz/restore-the-shore/actions/workflows/dpl.yml/badge.svg)
+![example workflow](https://github.com/amrul-hzz/restore-the-shore/actions/workflows/test.yml/badge.svg)
 
 # Template Proyek Django PBP
 Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
