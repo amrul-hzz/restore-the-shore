@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>My Account</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-image: url(https://image.cnbcfm.com/api/v1/image/107028541-1646934420167-gettyimages-101680465-ac4714a8-f421-4a76-ab21-eaa1793d80c8.jpeg?v=1646934663);
+  }
+
+  #wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  article,
+  aside,
+  header,
+  nav {
+    background: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 1.5vh;
+    color: rgb(0, 0, 0);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  article,
+  aside {
+    float: left;
+    min-height: 100vh;
+    height: max-content;
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+    border-radius: 1vh;
+  }
+
+  article {
+    width: 72%;
+  }
+
+  aside {
+    width: 26%;
+  }
+
+  .row {
+    margin: 1vmax;
+  }
+
+  .myBadge {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 5px;
+  }
+
+  .btn {
+    width: auto;
+  }
+
+  .btn-primary {
+    background-color: #6366F1;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+  @media (max-width: 800px) {
+    .flex-container {
+      flex-direction: column;
+    }
+
+    article, aside {
+      width: 96%;
+      margin: 1% 2% 1% 2%;
+    }
+  }
+
+  #congrats {
+    font-size: medium;
+    margin-top: 2%;
+    text-align: center;
+  }
+
+  #member-class {
+    font-weight: bold;
+    font-size: large;
+  }
+
+  #point {
+    font-size: large;
+  }
+
+  #change-pass {
+    margin-top: 1vh;
+  }
+
+</style>
+{% endblock meta %}
+
+
+{% block content %}
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "{% url 'forum:show_forum_json_by_user' %}",
+      dataType: 'json',
+      success: function (data) {
+        for (var i = 0; i < data.length; i++) {
+          $("#my-posts").append(
+                    `
+                    <div class = "row" style="margin:5px;">
+                      <div class="card" id="post-${data[i].pk}" style="outline:black;">
+                        <div class="card-header">${data[i].fields.creator.name}</div>
+                        <div class="card-body">
+                          <img src="${data[i].fields.image}" class="post-image" style="max-width:100%;"/>
+                          <p class="card-content">${data[i].fields.content}</p>
+                        </div>
+                        <div class="card-footer text-muted">Posted on ${data[i].fields.date}</div>
+                      </div>
+                    </div>
+                    `
+          );
+        }
+        if (i == 0) {
+          $("#my-posts").append(`
+          <a type="button" class="btn btn-primary mx-auto" href="{% url 'forum:show_forum' %}">Post Something</a>
+          <br>
+          <h5 class="text-muted font-weight-light"> You haven't post anything </h5>
+          <br>
+          `);
+        }
+      },
+    });
+  });
+</script>
+
+<div id="wrapper">
+  <header>
+    <div>
+      <h1>Hi {{user.get_username}},</h1>
+    </div>
+    <div>
+      <a type="button" class="btn btn-primary mx-auto" id="change-pass" href="{% url 'my_account:change_password' %}">Change Password</a>
+    </div>
+  </header>
+  <!-- My Posts -->
+  <div class="flex-container">
+    <article id="article">
+      <h3>My Posts</h3>
+      <hr style="border-top: 2px dashed;">
+    <div 
+    class="my-posts column h-100 d-flex align-items-center justify-content-center" 
+    id="my-posts"
+        style="flex-direction:column-reverse;"
+    >
+    </div>
+      
+  </article>
+  <aside id="aside">
+  <!-- Show Badges -->
+    <h3>Badge</h3>
+    <p id="point">Point : {{user_data.user_point}}</p>
+    <div class="container">
+      {% if user_data.user_point >= 200 %}
+        <div class="col">
+          <img id="platinum" class="myBadge" src="{% static 'platinum.png' %}" alt="paltinum">
+          <p id="congrats">Congrats, You are a <span id="member-class">Platinum</span> Member</p>
+        </div>
+        {% elif user_data.user_point >= 150 %}
+        <div class="col">
+          <img id="gold" class="myBadge" src="{% static 'gold.png' %}" alt="gold">
+          <p id="congrats">Congrats, You are a <span id="member-class">Gold</span> Member</p>
+        </div>
+        {% elif user_data.user_point >= 100 %}
+        <div class="col">
+          <img id="silver" class="myBadge" src="{% static 'silver.png' %}" alt="silver">
+          <p id="congrats">Congrats, You are a <span id="member-class">Silver</span> Member</p>
+        </div>
+        {% elif user_data.user_point >= 50 %}
+        <div class="col">
+          <img id="bronze" class="myBadge" src="{% static 'bronze.png' %}" alt="bronze">
+          <p id="congrats">Congrats, You are a <span id="member-class">Bronze</span> Member</p>
+        </div>
+        {% else %}
+        <h5 class="text-muted" style="text-align: center;">You need more Points</h5>
+        {% endif %}
+        
+      </div>
+      
+      <!-- Show Event History -->
+      <hr style="border-top: 2px dashed;">
+      <h5>Event History</h5>
+      {% if user_data.events_joined.all.count == 0 %}
+      <div class="column h-100 d-flex align-items-center justify-content-center flex-column">
+        <h5 class="text-muted row font-weight-light" style="text-align: center;">You haven't joined any event</h5>
+        <a type="button" class="btn btn-primary mx-auto row" href="{% url 'timeline:show_data' %}">Find Events</a>
+      </div>
+      <div>      
+        
+      </div>
+      {% else %}
+      <p>You have joined {{user_data.events_joined.all.count}} event(s)</p>
+      {% endif %}
+      <div id="myEvent" class="column d-flex align-items-center justify-content-center flex-column">
+        {% for event in user_data.events_joined.all %}
+        <div class="row">
+          <div class="card">
+            <div class="card-body" style="font-weight: bold;">
+              <p>{{event.namaEvent}} @{{event.namaPantai}}</p>
+            </div>
+            <div class="card-footer text-muted">{{event.tanggalMulai}} - {{event.tanggalAkhir}}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </aside>
+  </div>
+</div>
+  
+
+
+{% endblock content %}

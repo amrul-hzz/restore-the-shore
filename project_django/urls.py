@@ -19,5 +19,13 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('landing_page.urls')),
-    path('welcome/', include('landing_page.urls'))
+    path('myaccount/', include('my_account.urls')),
+    path('create-event/', include('create_event.urls')),
+    path('leaderboard/', include('leaderboard.urls')),
+    path('welcome/', include('landing_page.urls')),
+    path('timeline/', include('timeline.urls')),
+    path('forum/', include('forum.urls')),
+
 ]
+
+

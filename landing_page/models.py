@@ -2,7 +2,7 @@ from email.policy import default
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
-#from create_event.models import Event
+from timeline.models import JoinEvent
 
 # Create your models here.
 class UserAccount(models.Model):

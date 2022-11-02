@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Restore the Shore | Forum</title>
+    <script src="{% static 'js_forum/script_forum.js' %}"></script>
+   
+{% endblock meta %}
+
+{% block content %}
+<body>
+    <style type="text/css">
+        img{
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .column {
+            float: left;
+            width: 33.33%;
+        }
+
+        #add-post-button{
+            position: fixed;
+            bottom: 5%;
+            right: 5%;
+            border-radius: 50%;
+        }
+    </style>
+
+    <!-- Posts -->
+    <div 
+        class="forum-posts h-100 d-flex align-items-center justify-content-center container" 
+        id="forum-posts"
+        style="flex-direction:column-reverse;"
+    >
+    </div>
+
+    <!-- Create New Post Modal Button -->
+    <button
+        id="add-post-button"
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+    >
+    +
+    </button>
+
+    <!-- Create New Post Modal -->
+    <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Add A New Post</h1>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="new-post-form" method="POST">
+                    {% csrf_token %}
+
+                    <div id="image-group" class="form-group">
+                        <label for="image">Image</label>
+                        <input
+                            type="url"
+                            class="form-control"
+                            id="image"
+                            onchange="loadFile(event)"
+                            placeholder="Enter image link"
+                        />
+ 
+                        <div>
+                            <br>
+                            <img id="output" style="max-width: 100%; height: auto;"/>
+                        </div>
+                        <script>
+                            var loadFile = function(event) {
+                                var output = document.getElementById("output");
+                                var link = document.getElementById("image").value;
+                                output.src = link;
+                            };
+                        </script>
+                    </div>
+
+                    <div id="content-group" class="form-group">
+                        <label for="content">Content</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="content"
+                            name="content" 
+                            placeholder="Write your text here"
+                        />
+                    </div>
+
+                    <br>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</body>
+    
+
+{% endblock content %}

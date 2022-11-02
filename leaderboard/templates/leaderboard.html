@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+{% endblock meta %}
+
+<body>
+  {% block content %}
+
+  <div class="container flex flex-col w-full" style="max-width:700px">
+    <div class="px-3 pt-md-5 mx-auto text-center">
+        <h1 class="display-4 text-5xl font-bold pb-2 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-700">Leaderboard</h1>
+        <p class="lead">Top Users of <span class="italic text-blue-900">Restore-The-Shore's</span> Event</p>
+    </div>
+
+    <div class="px-3 pt-md-5 text-center w-full flex pb-3" id="quote">
+    </div>
+
+    <!-- <div class="input-group">
+        <form method="POST" id="search">
+            {% csrf_token %}
+            <input id="search-input" type="search" id="form1" class="form-control">
+            <label class="form-label" for="form1">Search</label>
+        </form>>
+        <button id="search-button" type="button" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </div> -->
+
+    <div class="flex flex-col w-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-md px-4 py-3">
+        <div class="px-3 pb-md-4 text-center">
+            <p class="lead text-base font-medium text-white lg:pb-0 md:pb-0 italic">Congratulate and motivate your friends!</p>
+        </div>
+        <div class="input-group mb-3">
+            <form method="POST" id="quote-form" class="w-full">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Write your message..." aria-label="Write your message" aria-describedby="basic-addon2" id="quotebox">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary font-semibold bg-indigo-700 text-white" type="button" id="quote-user-btn">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="input-group mt-10 flex justify-end">
+        <input type="text" class="form-control justify-end" placeholder="Search for user..." aria-label="Search for user" aria-describedby="basic-addon2" id="searchbox">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary font-semibold bg-indigo-500 text-white" type="button" id="search-user-btn">Search</button>
+        </div>
+    </div>
+
+    <div class="py-5">
+
+        <div class="row infinite-container" id="container">
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <span class="step-links">
+                    {% if page_obj.has_next %}
+                    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- {% comment %} Add the data, for Tugas 4 {% endcomment %}
+  <div class="row" id="card-container">
+  </div> -->
+  
+  <script src="{% static 'js_leaderboard/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'js_leaderboard/infinite.min.js' %}"></script>
+  <script src="{% static 'js_leaderboard/script_leaderboard.js' %}"></script>
+   
+  {% endblock content %}
+
+</body>
