@@ -39,6 +39,7 @@ def join_event(request):
             form = form.save(commit = False)
             form.user = request.user
             form.save()
+            UserAccount.objects.get(user = request.user).user_point += 10;
             return JsonResponse({
                 "pk" : form.pk, "fields": {
                 "namaEvent" : form.namaEvent,
