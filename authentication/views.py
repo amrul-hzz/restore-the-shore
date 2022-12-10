@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 @csrf_exempt
 def login(request):
@@ -14,11 +15,17 @@ def login(request):
     if user is not None:
         if user.is_active:
             auth_login(request, user)
+            if user.is_superuser:
+                type = "admin",
+            else:
+                type = "user",
             # Redirect to a success page.
             return JsonResponse({
             "status": True,
-            "message": "Successfully Logged In!"
+            "message": "Successfully Logged In!",
             # Insert any extra data if you want to pass data to Flutter
+            "username" : user.username,
+            "type" : type,            
             }, status=200)
         else:
             return JsonResponse({
