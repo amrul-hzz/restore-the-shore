@@ -58,7 +58,7 @@ def add_post(request):
                     "content": form.content,
                     "image": form.image
                 }
-            });
+            })
     else:
         return HttpResponseBadRequest('Invalid request')
 
