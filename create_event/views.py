@@ -37,11 +37,11 @@ def add_event(request):
                 "namaEvent" : form.namaEvent,
                 "namaPantai" : form.namaPantai,
                 "alamatPantai" : form.alamatPantai,
-                "jumlahPartisipan" : form.jumlahPartisipan,
+                "jumlahPartisipan" : str(form.jumlahPartisipan),
                 "fotoPantai" : form.fotoPantai,
                 "deskripsi" : form.deskripsi,
-                "tanggalMulai" : form.tanggalMulai,
-                "tanggalAkhir" : form.tanggalAkhir,
+                "tanggalMulai" : str(form.tanggalMulai),
+                "tanggalAkhir" : str(form.tanggalAkhir),
             }})
 
 @user_passes_test(lambda u: u.is_superuser)
