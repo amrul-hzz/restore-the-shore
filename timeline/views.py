@@ -51,6 +51,27 @@ def join_event(request):
                 "tanggalAkhir" : form.tanggalAkhir,
             }})
 
+@csrf_exempt
+def join_event(request):
+    form = JoinEventForm()
+    if request.method == "POST":
+        form = JoinEventForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit = False)
+            form.user = request.user
+            form.save()
+            return JsonResponse({
+                "pk" : form.pk, "fields": {
+                "namaEvent" : form.namaEvent,
+                "namaPantai" : form.namaPantai,
+                "alamatPantai" : form.alamatPantai,
+                "jumlahPartisipan" : form.jumlahPartisipan,
+                "fotoPantai" : form.fotoPantai,
+                "deskripsi" : form.deskripsi,
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
+            }})
+
 def show_event_by_id(request, pk):
     data = Event.objects.get(id=pk)
     context = {
@@ -61,6 +82,45 @@ def show_event_by_id(request, pk):
 def show_json(request):
     data_event = JoinEvent.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
+
+
+def show_json_all(request):
+    data_event = JoinEvent.objects.all()
+    return HttpResponse(serializers.serialize("json", data_event), content_type="application/json")
     
+@csrf_exempt
+def join_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        
+        namaEvent = data["namaEvent"]
+        namaPantai = data["namaPantai"]
+        alamatPantai = data["alamatPantai"]
+        jumlahPartisipan = data["jumlahPartisipan"]
+        fotoPantai = data["link_website"]
+        deskripsi = data["deskripsi"]
+        tanggalMulai = data["tanggalMulai"]
+        tanggalAkhir = data["tanggalAkhir"]
+        
+        
+        joinEvent = JoinEvent.objects.create(
+        namaEvent = namaEvent,
+        namaPantai = namaPantai,
+        alamatPantai = alamatPantai,
+        jumlahPartisipan = jumlahPartisipan,
+        fotoPantai = link_website,
+        deskripsi = deskripsi,
+        tanggalMulai = tanggalMulai,
+        tanggalAkhir = tanggalAkhir
+        )
+
+        joinEvent.save()
+
     
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
     
