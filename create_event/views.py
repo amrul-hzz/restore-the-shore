@@ -20,7 +20,6 @@ from create_event.forms import EventForm
 def show_create_event(request):
     return render(request, "create_event.html")
 
-@user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
 def add_event(request):
     form = EventForm()
