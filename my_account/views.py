@@ -10,6 +10,7 @@ from landing_page.models import UserAccount
 from timeline.models import JoinEvent
 from .forms import ChangePasswordForm
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required(login_url='landing_page:login_user')
@@ -40,6 +41,7 @@ def password_change(request):
     
     return render(request, 'password_change.html', {'form':form})
 
+@csrf_exempt
 def changePassword(request):
     form = ChangePasswordForm(user=request.user, data=request.POST)
     if form.is_valid():
