@@ -93,3 +93,10 @@ def post_post(request):
         return add_post(request)
     
     return HttpResponse(status=404)
+
+@csrf_exempt
+def post_comment(request, id):
+    if request.method == 'POST':
+        return add_comment(request, id)
+    
+    return HttpResponse(status=404)
