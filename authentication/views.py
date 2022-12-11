@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -41,8 +41,8 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
-    logout(request)
-    return JsonResponse({
-        'status': True,
-        'message': 'Successfully Logged Out!',
-    }, status=200)
+	if request.user.is_authenticated or ['loggedIn']:
+		if request.user.is_authenticated:
+			auth_logout(request)
+		return JsonResponse({"status" : False}, status=200)
+	return JsonResponse({"status": "Not yet authenticated"}, status =403)
