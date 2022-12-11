@@ -19,9 +19,9 @@ from create_event.forms import EventForm
 @user_passes_test(lambda u: u.is_superuser)
 def show_create_event(request):
     return render(request, "create_event.html")
-    
-@csrf_exempt
+
 @user_passes_test(lambda u: u.is_superuser)
+@csrf_exempt
 def add_event(request):
     form = EventForm()
     if request.method == "POST":
