@@ -41,8 +41,7 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
-	if request.user.is_authenticated or ['loggedIn']:
-		if request.user.is_authenticated:
-			auth_logout(request)
-		return JsonResponse({"status" : False}, status=200)
-	return JsonResponse({"status": "Not yet authenticated"}, status =403)
+	if request.user.is_authenticated:
+		auth_logout(request)
+		return JsonResponse({"status" : False, "message" : "Successfully Logged Out!"}, status=200)
+	return JsonResponse({"status": "Not yet authenticated", "message": "Failed to Logout"}, status =403)

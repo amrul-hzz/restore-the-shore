@@ -50,15 +50,17 @@ def add_post(request):
             form.save()
 
             return JsonResponse({
+                "model": "forum.post",
                 "pk": form.pk,
                 "fields":
                 {
+                    "creator": form.creator.pk,
                     "creator_name": form.creator_name,
                     "date": form.date,
                     "content": form.content,
                     "image": form.image
                 }
-            });
+            })
     else:
         return HttpResponseBadRequest('Invalid request')
 
@@ -82,3 +84,12 @@ def add_comment(request, id):
         return render(request, "forum.html", context)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+# api
+
+@csrf_exempt
+def post_post(request):
+    if request.method == 'POST':
+        return add_post(request)
+    
+    return HttpResponse(status=404)
