@@ -82,3 +82,12 @@ def add_comment(request, id):
         return render(request, "forum.html", context)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+# api
+
+@csrf_exempt
+def post_post(request):
+    if request.method == 'POST':
+        return add_post(request)
+    
+    return HttpResponse(status=404)
