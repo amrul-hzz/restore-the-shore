@@ -31,7 +31,9 @@ def add_event(request):
             form.user = request.user
             form.save()
             return JsonResponse({
+                "model" : "create_event.event",
                 "pk" : form.pk, "fields": {
+                "user" : form.user.pk,
                 "namaEvent" : form.namaEvent,
                 "namaPantai" : form.namaPantai,
                 "alamatPantai" : form.alamatPantai,
