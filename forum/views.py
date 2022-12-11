@@ -53,12 +53,13 @@ def add_post(request):
                 "pk": form.pk,
                 "fields":
                 {
+                    "creator": form.creator.pk,
                     "creator_name": form.creator_name,
                     "date": form.date,
                     "content": form.content,
                     "image": form.image
                 }
-            });
+            })
     else:
         return HttpResponseBadRequest('Invalid request')
 
