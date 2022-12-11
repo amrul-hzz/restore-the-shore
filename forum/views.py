@@ -50,6 +50,7 @@ def add_post(request):
             form.save()
 
             return JsonResponse({
+                "model": "forum.post",
                 "pk": form.pk,
                 "fields":
                 {
