@@ -20,7 +20,6 @@ from create_event.forms import EventForm
 def show_create_event(request):
     return render(request, "create_event.html")
 
-@user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
 def add_event(request):
     form = EventForm()
@@ -31,15 +30,17 @@ def add_event(request):
             form.user = request.user
             form.save()
             return JsonResponse({
+                "model" : "create_event.event",
                 "pk" : form.pk, "fields": {
+                "user" : form.user.pk,
                 "namaEvent" : form.namaEvent,
                 "namaPantai" : form.namaPantai,
                 "alamatPantai" : form.alamatPantai,
-                "jumlahPartisipan" : form.jumlahPartisipan,
+                "jumlahPartisipan" : str(form.jumlahPartisipan),
                 "fotoPantai" : form.fotoPantai,
                 "deskripsi" : form.deskripsi,
-                "tanggalMulai" : form.tanggalMulai,
-                "tanggalAkhir" : form.tanggalAkhir,
+                "tanggalMulai" : str(form.tanggalMulai),
+                "tanggalAkhir" : str(form.tanggalAkhir),
             }})
 
 @user_passes_test(lambda u: u.is_superuser)
