@@ -73,7 +73,7 @@ def add_event_mobile(request):
     new_event.save()
     return JsonResponse({
         "model" : "create_event.event",
-        "pk" : 1, "fields": {
+        "pk" : new_event.pk, "fields": {
         "user" : user.pk,
         "namaEvent" : nama_event,
         "namaPantai" : nama_pantai,
