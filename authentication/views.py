@@ -42,16 +42,15 @@ def login(request):
 @csrf_exempt
 def register(request):
     username = request.POST['username']
-    email = request.POST['email']
     password = request.POST['password']
     repeat_password = request.POST['repeat_password']
-    if (User.objects.filter(username=username) or User.objects.filter(email=email)):
+    if (User.objects.filter(username=username)):
         return JsonResponse({
             "status": False,
-            "message": "The username or email has already been registered!"
+            "message": "The username has already been registered!"
             }, status=401)
     elif (password == repeat_password):
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(username=username, password=password)
         user.save()
         return JsonResponse({
             "status": True,
