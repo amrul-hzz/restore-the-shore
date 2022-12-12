@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -93,33 +94,46 @@ def join_flutter(request):
     if request.method == 'POST':
         
         data = json.loads(request.body)
-        
+        print(request.user.username)
         
         namaEvent = data["namaEvent"]
         namaPantai = data["namaPantai"]
         alamatPantai = data["alamatPantai"]
         jumlahPartisipan = data["jumlahPartisipan"]
-        fotoPantai = data["link_website"]
+        fotoPantai = data["fotoPantai"]
         deskripsi = data["deskripsi"]
         tanggalMulai = data["tanggalMulai"]
         tanggalAkhir = data["tanggalAkhir"]
         
+        try:
+            JoinEvent.objects.get(user=request.user, 
+
+            namaEvent = namaEvent,
+            namaPantai = namaPantai,
+            alamatPantai = alamatPantai,
+            jumlahPartisipan = jumlahPartisipan,
+            fotoPantai = fotoPantai,
+            deskripsi = deskripsi,
+            tanggalMulai = tanggalMulai,
+            tanggalAkhir = tanggalAkhir)
+            return JsonResponse({"status": "joined"}, status=401)
+        except:
+            joinEvent = JoinEvent.objects.create(
+            user=request.user,
+            namaEvent = namaEvent,
+            namaPantai = namaPantai,
+            alamatPantai = alamatPantai,
+            jumlahPartisipan = jumlahPartisipan,
+            fotoPantai = fotoPantai,
+            deskripsi = deskripsi,
+            tanggalMulai = tanggalMulai,
+            tanggalAkhir = tanggalAkhir
+            )
+
+            joinEvent.save()
+
         
-        joinEvent = JoinEvent.objects.create(
-        namaEvent = namaEvent,
-        namaPantai = namaPantai,
-        alamatPantai = alamatPantai,
-        jumlahPartisipan = jumlahPartisipan,
-        fotoPantai = link_website,
-        deskripsi = deskripsi,
-        tanggalMulai = tanggalMulai,
-        tanggalAkhir = tanggalAkhir
-        )
-
-        joinEvent.save()
-
-    
-        return JsonResponse({"status": "success"}, status=200)
+            return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
 
