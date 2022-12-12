@@ -28,7 +28,7 @@ def add_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             form = form.save(commit = False)
-            form.user = request.user
+            form.user = User.objects.get(id=1)
             form.save()
             return JsonResponse({
                 "model" : "create_event.event",
