@@ -31,7 +31,6 @@ def search(request, searchusername):
         users = UserAccount.objects.filter(user__username__icontains=searchusername) # cari berdasarkan pola
         return HttpResponse(serializers.serialize("json", users), content_type="application/json")
 
-@login_required(login_url="/welcome/login/")
 @csrf_exempt
 def add_quote(request):
     form = AccountForm()
