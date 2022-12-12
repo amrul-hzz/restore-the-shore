@@ -20,5 +20,5 @@ urlpatterns = [
     path('add-post/', add_post, name='add_post'),
     path('add-comment/<int:id>/', add_comment, name='add_comment'),
     path('post-post-api/', post_post, name='post_post'),
-    path('post-comment-api/<int:id>', post_comment, name='post_comment'),
+    path('post-comment-api/<int:id>/', post_comment, name='post_comment'),
 ]
