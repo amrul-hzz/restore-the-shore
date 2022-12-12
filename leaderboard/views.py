@@ -54,6 +54,25 @@ def add_quote(request):
 
         return HttpResponse(json.dumps(context), content_type="application/json")
 
+@csrf_exempt
+def add_quote_mobile(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        user = UserAccount.objects.get(username = username)
+        quote = request.POST.get("quote")
+
+        new_quote = LeaderBoard.objects.create(
+            users = user,
+            quote = quote
+        )
+
+        new_quote.save()
+        return JsonResponse({
+            "message" : "OK"
+        })
+    return JsonResponse({
+        "message": "NOT_SAVED"
+    })
 
 @csrf_exempt
 def get_quote(request):
