@@ -94,9 +94,30 @@ def post_post(request):
     
     return HttpResponse(status=404)
 
+@login_required(login_url="/welcome/login/")
 @csrf_exempt
 def post_comment(request, id):
-    if request.method == 'POST':
-        return add_comment(request, id)
-    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit = False)
+            form.creator = request.user
+            form.creator_name = request.user.username
+            form.date = datetime.datetime.now()
+            form.original_post_id = id
+            form.save()
+
+            return JsonResponse({
+                "model": "forum.comment",
+                "pk": form.pk,
+                "fields":
+                {
+                    "creator": form.creator.pk,
+                    "creator_name": form.creator_name,
+                    "date": form.date,
+                    "content": form.content,
+                    "original_post_id": form.original_post_id,
+                }
+            })
+
     return HttpResponse(status=404)
