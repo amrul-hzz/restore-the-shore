@@ -40,6 +40,31 @@ def login(request):
         }, status=401)
 
 @csrf_exempt
+def register(request):
+    username = request.POST['username']
+    email = request.POST['email']
+    password = request.POST['password']
+    repeat_password = request.POST['repeat_password']
+    if (User.objects.filter(username=username) or User.objects.filter(email=email)):
+        return JsonResponse({
+            "status": False,
+            "message": "The username or email has already been registered!"
+            }, status=401)
+    elif (password == repeat_password):
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.save()
+        return JsonResponse({
+            "status": True,
+            "message": "Successfully Create Account!"
+            # Insert any extra data if you want to pass data to Flutter
+            }, status=200)
+    else:
+        return JsonResponse({
+        "status": False,
+        "message": "Password and repeat password are not the same!"
+        }, status=401)
+
+@csrf_exempt
 def logout(request):
 	if request.user.is_authenticated:
 		auth_logout(request)

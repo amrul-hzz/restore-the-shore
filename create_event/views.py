@@ -14,6 +14,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from create_event.forms import EventForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_superuser)
