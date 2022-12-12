@@ -15,6 +15,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from create_event.forms import EventForm
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_superuser)
@@ -43,6 +44,36 @@ def add_event(request):
                 "tanggalMulai" : str(form.tanggalMulai),
                 "tanggalAkhir" : str(form.tanggalAkhir),
             }})
+
+@csrf_exempt
+def add_event_mobile(request):
+    user = User.objects.get(id=1)
+    nama_event = request.POST.get('namaEvent')
+    nama_pantai = request.POST.get('namaPantai')
+    alamat_pantai = request.POST.get('alamatPantai')
+    jumlah_partisipan = request.POST.get('jumlahPartisipan')
+    foto_pantai = request.POST.get('fotoPantai')
+    deskripsi = request.POST.get('deskripsi')
+    tanggal_mulai = request.POST.get('tanggalMulai')
+    tanggal_akhir = request.POST.get('tanggalAkhir')
+    tanggal_mulai_fix = datetime.strptime(tanggal_mulai, '%Y-%m-%d').date()
+    tanggal_akhir_fix = datetime.strptime(tanggal_akhir, '%Y-%m-%d').date()
+
+    new_event = Event.objects.create(user = user, namaEvent = nama_event, namaPantai = nama_pantai, alamatPantai = alamat_pantai, jumlahPartisipan = int(jumlah_partisipan), fotoPantai = foto_pantai, deskripsi = deskripsi, tanggalMulai = tanggal_mulai_fix, tanggalAkhir = tanggal_akhir_fix)
+    new_event.save()
+    return JsonResponse({
+        "model" : "create_event.event",
+        "pk" : 1, "fields": {
+        "user" : user.pk,
+        "namaEvent" : nama_event,
+        "namaPantai" : nama_pantai,
+        "alamatPantai" : alamat_pantai,
+        "jumlahPartisipan" : str(jumlah_partisipan),
+        "fotoPantai" : foto_pantai,
+        "deskripsi" : deskripsi,
+        "tanggalMulai" : str(tanggal_mulai_fix),
+        "tanggalAkhir" : str(tanggal_akhir_fix),
+    }})
 
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
