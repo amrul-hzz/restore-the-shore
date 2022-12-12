@@ -20,6 +20,7 @@ def show_account(request):
         data_user.events_joined.add(event)
         data_user.save()
     data_user.user_point = data_user.events_joined.count() * 10
+    data_user.save();
     context = {
         'user_data' : data_user,
     }
