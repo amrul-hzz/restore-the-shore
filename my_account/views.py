@@ -20,7 +20,7 @@ def show_account(request):
         data_user.events_joined.add(event)
         data_user.save()
     data_user.user_point = data_user.events_joined.count() * 10
-    data_user.save();
+    data_user.save()
     context = {
         'user_data' : data_user,
     }
@@ -29,6 +29,11 @@ def show_account(request):
 @login_required(login_url='landing_page:login_user')
 def show_json(request):
     data_user = UserAccount.objects.filter(user = request.user)
+    for event in JoinEvent.objects.filter(user = request.user):
+        data_user.events_joined.add(event)
+        data_user.save()
+    data_user.user_point = data_user.events_joined.count() * 10
+    data_user.save()
     return HttpResponse(serializers.serialize("json", data_user), content_type="application/json")
 
 def password_change(request):
