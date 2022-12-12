@@ -8,6 +8,7 @@ from forum.views import show_comments_json
 from forum.views import add_post
 from forum.views import add_comment
 from forum.views import post_post
+from forum.views import post_comment
 
 app_name = 'forum'
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('add-post/', add_post, name='add_post'),
     path('add-comment/<int:id>/', add_comment, name='add_comment'),
     path('post-post-api/', post_post, name='post_post'),
+    path('post-comment-api/<int:id>', post_comment, name='post_comment'),
 ]
