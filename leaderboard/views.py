@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from landing_page.models import UserAccount
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.core.paginator import Paginator
 from leaderboard.models import LeaderBoard
@@ -42,7 +42,7 @@ def add_quote(request):
             user_acc = UserAccount.objects.get(user=request.user)
             form.users = user_acc
             form.save() # saved to db, by default your own made models
-            return HttpResponse("OK")
+            return JsonResponse({"message":"OK"})
 
     elif request.method == "GET":
         data_quote = list(LeaderBoard.objects.all())
