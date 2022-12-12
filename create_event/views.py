@@ -29,7 +29,7 @@ def add_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             form = form.save(commit = False)
-            form.user = User.objects.get(id=1)
+            form.user = request.user
             form.save()
             return JsonResponse({
                 "model" : "create_event.event",
@@ -38,39 +38,52 @@ def add_event(request):
                 "namaEvent" : form.namaEvent,
                 "namaPantai" : form.namaPantai,
                 "alamatPantai" : form.alamatPantai,
-                "jumlahPartisipan" : str(form.jumlahPartisipan),
+                "jumlahPartisipan" : form.jumlahPartisipan,
                 "fotoPantai" : form.fotoPantai,
                 "deskripsi" : form.deskripsi,
-                "tanggalMulai" : str(form.tanggalMulai),
-                "tanggalAkhir" : str(form.tanggalAkhir),
+                "tanggalMulai" : form.tanggalMulai,
+                "tanggalAkhir" : form.tanggalAkhir,
             }})
 
 @csrf_exempt
 def add_event_mobile(request):
-    form = EventForm()
-    if request.method == "POST":
-        form = EventForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit = False)
-            form.user = User.objects.get(id=1)
-            form.jumlahPartisipan = 3
-            form.tanggalMulai = datetime.now()
-            form.tanggalAkhir = datetime.now()
-            form.save()
-            return JsonResponse({
-                "model" : "create_event.event",
-                "pk" : form.pk, "fields": {
-                "user" : form.user.pk,
-                "namaEvent" : form.namaEvent,
-                "namaPantai" : form.namaPantai,
-                "alamatPantai" : form.alamatPantai,
-                "jumlahPartisipan" : str(form.jumlahPartisipan),
-                "fotoPantai" : form.fotoPantai,
-                "deskripsi" : form.deskripsi,
-                "tanggalMulai" : str(form.tanggalMulai),
-                "tanggalAkhir" : str(form.tanggalAkhir),
-            }})
- 
+    username = request.POST.get('username')
+    user = User.objects.get(username = username)
+    nama_event = request.POST.get('namaEvent')
+    nama_pantai = request.POST.get('namaPantai')
+    alamat_pantai = request.POST.get('alamatPantai')
+    jumlah_partisipan = request.POST.get('jumlahPartisipan')
+    foto_pantai = request.POST.get('fotoPantai')
+    deskripsi = request.POST.get('deskripsi')
+    tanggal_mulai = request.POST.get('tanggalMulai')
+    tanggal_akhir = request.POST.get('tanggalAkhir')
+    tanggal_mulai_fix = datetime.strptime(tanggal_mulai, '%Y-%m-%d').date()
+    tanggal_akhir_fix = datetime.strptime(tanggal_akhir, '%Y-%m-%d').date()
+
+    new_event = Event.objects.create(
+        user = user, 
+        namaEvent = nama_event, 
+        namaPantai = nama_pantai, 
+        alamatPantai = alamat_pantai, 
+        jumlahPartisipan = int(jumlah_partisipan), 
+        fotoPantai = foto_pantai, 
+        deskripsi = deskripsi, 
+        tanggalMulai = tanggal_mulai_fix, 
+        tanggalAkhir = tanggal_akhir_fix)
+    new_event.save()
+    return JsonResponse({
+        "model" : "create_event.event",
+        "pk" : 1, "fields": {
+        "user" : user.pk,
+        "namaEvent" : nama_event,
+        "namaPantai" : nama_pantai,
+        "alamatPantai" : alamat_pantai,
+        "jumlahPartisipan" : jumlah_partisipan,
+        "fotoPantai" : foto_pantai,
+        "deskripsi" : deskripsi,
+        "tanggalMulai" : tanggal_mulai_fix,
+        "tanggalAkhir" : tanggal_akhir_fix,
+    }})
 
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
