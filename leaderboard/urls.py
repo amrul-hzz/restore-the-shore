@@ -1,5 +1,5 @@
 from django.urls import path
-from leaderboard.views import show_leaderboard, show_json, search, add_quote, get_quote
+from leaderboard.views import show_leaderboard, show_json, search, add_quote, get_quote, add_quote_mobile
 from django.conf import settings 
 from django.conf.urls.static import static 
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path('search/<str:searchusername>/', search, name='search'),
     path('add-quote/', add_quote, name='add_quote'),
     path('get-quote/', get_quote, name='get_quote'),
+    path('add-quote-mobile/', add_quote_mobile, name='add_quote_mobile'),
     # path('getuser/<int:id>/', get_user, name='get_user'),
 ]
